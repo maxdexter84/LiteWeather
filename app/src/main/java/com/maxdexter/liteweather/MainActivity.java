@@ -1,14 +1,13 @@
 package com.maxdexter.liteweather;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.maxdexter.liteweather.data.WeatherLoader;
+import com.maxdexter.liteweather.fragments.TodayWeather;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +16,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fragmentTransaction();
+    }
 
+    private void fragmentTransaction() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container_main);
+        if(fragment == null){
+            fragment = new TodayWeather();
+            fm.beginTransaction().add(R.id.fragment_container_main,fragment).commit();
+        }
     }
 }
