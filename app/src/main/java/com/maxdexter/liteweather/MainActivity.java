@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 
 
@@ -22,9 +23,14 @@ public class MainActivity extends AppCompatActivity {
     private void fragmentTransaction() {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container_main);
+        Fragment listFragment = fm.findFragmentById(R.id.fragment_container_list);
         if(fragment == null){
             fragment = new TodayWeather();
             fm.beginTransaction().add(R.id.fragment_container_main,fragment).commit();
+        }
+        if(listFragment == null){
+            listFragment = new TenDaysWeather();
+            fm.beginTransaction().add(R.id.fragment_container_list,listFragment).commit();
         }
     }
 }
