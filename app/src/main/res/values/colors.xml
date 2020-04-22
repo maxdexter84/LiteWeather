@@ -9,4 +9,5 @@
     <color name="myColorAccent">#7c8e51</color>
     <color name="myColorAccentTransparent">#697C8E51</color>
     <color name="transparentBlack">#BB1A1919</color>
+    <color name="white">#73FFFFFF</color>
 </resources>
