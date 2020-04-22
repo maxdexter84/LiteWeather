@@ -20,7 +20,6 @@ import com.maxdexter.liteweather.data.WeatherLab;
  * A simple {@link Fragment} subclass.
  */
 public class TenDaysWeather extends Fragment {
-    private WeatherLab weatherLab;
     private WeatherAdapter weatherAdapter;
     public TenDaysWeather() {
         // Required empty public constructor
@@ -35,10 +34,14 @@ public class TenDaysWeather extends Fragment {
         weatherAdapter.setListener(new WeatherAdapter.Listener() {
             @Override
             public void onClick(int position) {
+                assert getFragmentManager() != null;
                 TodayWeather todayWeather =(TodayWeather) getFragmentManager().findFragmentById(R.id.fragment_container_main);
+                assert todayWeather != null;
                 todayWeather.setContent(position);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container_main,todayWeather).commit();
+                ft.replace(R.id.fragment_container_main,todayWeather);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
 
 
             }
@@ -48,7 +51,7 @@ public class TenDaysWeather extends Fragment {
     }
 
     private void createInitAdapter(View view) {
-        weatherLab = new WeatherLab();
+        WeatherLab weatherLab = new WeatherLab();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_ten_days_fragment_id);
         weatherAdapter = new WeatherAdapter(weatherLab.getWeatherList());
         recyclerView.setAdapter(weatherAdapter);

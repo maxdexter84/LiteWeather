@@ -24,8 +24,8 @@ import org.w3c.dom.Text;
  * A simple {@link Fragment} subclass.
  */
 public class TodayWeather extends Fragment{
-    WeatherLab weatherLab;
-    int defaultPosition = 0;
+    private WeatherLab weatherLab;
+    private int defaultPosition = 0;
     private TextView mCurrentTemp;
     private TextView mFeelingTemp;
     private ImageView mImageWeather;
@@ -57,7 +57,7 @@ public class TodayWeather extends Fragment{
     }
 
     @SuppressLint("SetTextI18n")
-    public void setContent(int position){
+    void setContent(int position){
         Weather weather = weatherLab.getWeatherList().get(position);
         mCurrentTemp.setText(weather.getCurrentTemp());
         mFeelingTemp.setText(weather.getFeelingTemp());
