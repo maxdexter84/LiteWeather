@@ -6,4 +6,5 @@
     <string name="ten_days_text">Прогноз на 10 дней</string>
     <string name="search">search</string>
     <string name="search_title">Поиск</string>
+    <string name="search_hint">Выбрать город</string>
 </resources>

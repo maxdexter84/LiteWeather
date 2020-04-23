@@ -1,18 +1,24 @@
 package com.maxdexter.liteweather;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+
+import android.app.SearchManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.SearchView;
 
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search,menu);
-            return super.onCreateOptionsMenu(menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        assert searchManager != null;
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        return true;
     }
 }
