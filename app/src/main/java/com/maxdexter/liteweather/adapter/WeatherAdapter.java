@@ -18,23 +18,43 @@ import java.util.List;
 import java.util.Map;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder>{
+  private Listener mListener;
+    public interface Listener{
+        void onClick(int position);
+    }
+
+    public void setListener(Listener listener){
+        this.mListener = listener;
+    }
     private List< Weather> sWeatherList;
+
 //Создаем конструтктор адаптера, в который передаем список sWeatherList
     public WeatherAdapter(List<Weather> weatherList){
         this.sWeatherList = weatherList;
     }
     @NonNull
     @Override
-    public WeatherAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Подключаем представление карточки в список
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weather_card_item,parent,false);
+
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeatherAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Weather weather = sWeatherList.get(position);
         holder.bind(weather);
+        View view = holder.itemView;
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onClick(position);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -61,4 +81,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
             itemImageWeather.setImageResource(weather.getImageResourceId());
         }
     }
+
+
 }

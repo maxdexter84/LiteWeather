@@ -3,4 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ten_days_text">Прогноз на 10 дней</string>
+    <string name="search">search</string>
+    <string name="search_title">Поиск</string>
+    <string name="search_hint">Выбрать город</string>
+
+    <string name="feeling_by">Ощущается как</string>
 </resources>
