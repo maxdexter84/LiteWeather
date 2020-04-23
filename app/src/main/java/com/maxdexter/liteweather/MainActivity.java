@@ -8,16 +8,20 @@ import androidx.fragment.app.FragmentManager;
 
 
 import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.view.Menu;
 import android.widget.SearchView;
 
+import com.maxdexter.liteweather.data.SearchLab;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 
 
 public class MainActivity extends AppCompatActivity {
-
+SearchLab mSearchLab;
 
 
     @Override
@@ -27,7 +31,24 @@ public class MainActivity extends AppCompatActivity {
         initToolbar();
         
         fragmentTransaction();
+        searchViewGetText();
 
+
+    }
+
+    private void searchViewGetText() {
+        //получаем строку поиска из намерения ACTION_SEARCH
+        Intent intent  = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
+            String query = intent.getStringExtra(SearchManager.QUERY);
+           mSearchLab = new SearchLab();
+           mSearchLab.addPrevSearched(query);
+
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+            MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
+        }
     }
 
     private void initToolbar() {
@@ -52,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search,menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+//Инициализация SearchView  в menu
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        assert searchManager != null;
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+// Здесь можно указать будет ли строка поиска изначально развернута или свернута в значок
+        searchView.setIconifiedByDefault(true);
+
         return true;
     }
 }
