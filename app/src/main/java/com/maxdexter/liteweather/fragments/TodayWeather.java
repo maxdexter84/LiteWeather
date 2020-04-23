@@ -59,8 +59,9 @@ public class TodayWeather extends Fragment{
     @SuppressLint("SetTextI18n")
     void setContent(int position){
         Weather weather = weatherLab.getWeatherList().get(position);
+        int feel = R.string.feeling_by;
         mCurrentTemp.setText(weather.getCurrentTemp());
-        mFeelingTemp.setText(weather.getFeelingTemp());
+        mFeelingTemp.setText("Ощущается как " + weather.getFeelingTemp());
         mImageWeather.setImageResource(weather.getImageResourceId());
         mDateTime.setText(weather.getDate());
         mDayNightTemp.setText("" + weather.getNightTemp() + " " + weather.getDayTemp());

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/ten_days_text"
-        android:background="@color/myColorAccent"
+        android:background="@color/transparentWhite"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
         android:textColor="@color/transparentBlack"
         android:textSize="24sp"

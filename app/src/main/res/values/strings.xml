@@ -7,4 +7,6 @@
     <string name="search">search</string>
     <string name="search_title">Поиск</string>
     <string name="search_hint">Выбрать город</string>
+
+    <string name="feeling_by">Ощущается как</string>
 </resources>
