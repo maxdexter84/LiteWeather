@@ -9,4 +9,8 @@
     <string name="search_hint">Выбрать город</string>
 
     <string name="feeling_by">Ощущается как</string>
+    <string name="place_name">Введите название города</string>
+
+    <string name="positive_button">Подтвердить</string>
+    <string name="negative_button">Отменить</string>
 </resources>

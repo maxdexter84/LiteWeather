@@ -7,23 +7,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Weather {
-    private String mPlace;
     private String mDate;
     private String mNightTemp;
     private String mDayTemp;
     private String mCurrentTemp;
     private String mFeelingTemp;
     private int mImageResourceId;
+
+    public Weather() {
+
+    }
+
     private String mWeatherDescription;
-    private static Map<String, Weather> sWeatherList = new HashMap<>();
 
-    public String getPlace() {
-        return mPlace;
-    }
 
-    public void setPlace(String place) {
-        mPlace = place;
-    }
 
     public String getDate() {
         return mDate;
@@ -81,13 +78,11 @@ public class Weather {
         mWeatherDescription = weatherDescription;
     }
 
-    public static Map<String, Weather> getWeatherList() {
-        return sWeatherList;
-    }
 
 
-    public Weather(String place, String date, String nightTemp, String dayTemp, String currentTemp, String feelingTemp, int imageResourceId, String weatherDescription) {
-       mPlace = place;
+
+    public Weather( String date, String nightTemp, String dayTemp, String currentTemp, String feelingTemp, int imageResourceId, String weatherDescription) {
+
         mDate = date;
         mNightTemp = nightTemp;
         mDayTemp = dayTemp;
@@ -97,25 +92,25 @@ public class Weather {
         mWeatherDescription = weatherDescription;
     }
 
-    private int getWeatherIcon(String weather){
-        int icon = R.drawable.clear_sky;
-        HashMap<String, Integer> weatherIcon = new HashMap<>();
-        weatherIcon.put("clear sky", R.drawable.clear_sky);
-        weatherIcon.put("few clouds",R.drawable.few_clouds);
-        weatherIcon.put("scattered clouds",R.drawable.scattered_clouds);
-        weatherIcon.put("broken clouds",R.drawable.broken_clouds);
-        weatherIcon.put("shower rain",R.drawable.shower_rain);
-        weatherIcon.put("thunderstorm",R.drawable.thunderstorm);
-        weatherIcon.put("rain",R.drawable.rain);
-        weatherIcon.put("snow",R.drawable.snow);
-        weatherIcon.put("mist",R.drawable.mist);
-        for(Map.Entry<String, Integer>pair: weatherIcon.entrySet()){
-            String key = pair.getKey();
-            int value = pair.getValue();
-            if (key.equals(weather)){
-                icon = value;
-            }
-        }
-        return icon;
-    }
+//    private int getWeatherIcon(String weather){
+//        int icon = R.drawable.clear_sky;
+//        HashMap<String, Integer> weatherIcon = new HashMap<>();
+//        weatherIcon.put("clear sky", R.drawable.clear_sky);
+//        weatherIcon.put("few clouds",R.drawable.few_clouds);
+//        weatherIcon.put("scattered clouds",R.drawable.scattered_clouds);
+//        weatherIcon.put("broken clouds",R.drawable.broken_clouds);
+//        weatherIcon.put("shower rain",R.drawable.shower_rain);
+//        weatherIcon.put("thunderstorm",R.drawable.thunderstorm);
+//        weatherIcon.put("rain",R.drawable.rain);
+//        weatherIcon.put("snow",R.drawable.snow);
+//        weatherIcon.put("mist",R.drawable.mist);
+//        for(Map.Entry<String, Integer>pair: weatherIcon.entrySet()){
+//            String key = pair.getKey();
+//            int value = pair.getValue();
+//            if (key.equals(weather)){
+//                icon = value;
+//            }
+//        }
+//        return icon;
+//    }
 }

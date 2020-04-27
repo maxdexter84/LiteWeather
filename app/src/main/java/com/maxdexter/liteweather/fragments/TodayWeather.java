@@ -15,10 +15,15 @@ import android.widget.TextView;
 import com.maxdexter.liteweather.MainActivity;
 import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.adapter.WeatherAdapter;
+import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.Weather;
 import com.maxdexter.liteweather.data.WeatherLab;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +31,7 @@ import org.w3c.dom.Text;
 public class TodayWeather extends Fragment{
     private WeatherLab weatherLab;
     private int defaultPosition = 0;
+    private TextView mCityName;
     private TextView mCurrentTemp;
     private TextView mFeelingTemp;
     private ImageView mImageWeather;
@@ -41,13 +47,13 @@ public class TodayWeather extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
       View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
-        weatherLab = new WeatherLab();
         init(view);
         setContent(defaultPosition);
         return view;
     }
 
     private void init(View view){
+        mCityName = view.findViewById(R.id.city_name_today_fragment_id);
         mCurrentTemp = view.findViewById(R.id.current_temp_text_view_id);
         mFeelingTemp = view.findViewById(R.id.feeling_temp_text_view_id);
         mImageWeather = view.findViewById(R.id.image_weather_image_id);
@@ -57,16 +63,28 @@ public class TodayWeather extends Fragment{
     }
 
     @SuppressLint("SetTextI18n")
-    void setContent(int position){
-        Weather weather = weatherLab.getWeatherList().get(position);
-        int feel = R.string.feeling_by;
-        mCurrentTemp.setText(weather.getCurrentTemp());
-        mFeelingTemp.setText("Ощущается как " + weather.getFeelingTemp());
-        mImageWeather.setImageResource(weather.getImageResourceId());
-        mDateTime.setText(weather.getDate());
-        mDayNightTemp.setText("" + weather.getNightTemp() + " " + weather.getDayTemp());
-        mWeatherDescript.setText(weather.getWeatherDescription());
+    private void setContent(int position){
+        DailyWeather dailyWeather = WeatherLab.getmDailyWeathers().get(position);
+
+        Weather weather = WeatherLab.getmWeather();
+        ArrayList<DailyWeather>list = weatherLab.getmDailyWeathers();
+        if(weather != null ){
+            int feel = R.string.feeling_by;
+            mCityName.setText(WeatherLab.getPlace());
+            mCurrentTemp.setText(weather.getCurrentTemp());
+            mFeelingTemp.setText("Ощущается как " + weather.getFeelingTemp());
+            mImageWeather.setImageResource(weather.getImageResourceId());
+            mDateTime.setText(weather.getDate());
+            mDayNightTemp.setText("Min " + weather.getNightTemp() +"℃ "+ " Max  " +  weather.getDayTemp()+"℃");
+            mWeatherDescript.setText(weather.getWeatherDescription());
+        }
+
+
+
     }
+
+
+
 
 
 }

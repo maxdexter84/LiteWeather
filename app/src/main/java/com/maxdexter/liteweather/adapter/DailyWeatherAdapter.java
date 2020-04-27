@@ -8,31 +8,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxdexter.liteweather.R;
+import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.Weather;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder>{
+public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder>{
   private Listener mListener;
     public interface Listener{
-        void onClick(int position);
+        void onClick(int position,View view);
     }
 
     public void setListener(Listener listener){
         this.mListener = listener;
     }
 
-    private ArrayList<Weather>sWeatherList;
+    private ArrayList<DailyWeather>sWeatherList;
 
 //Создаем конструтктор адаптера, в который передаем список sWeatherList
-    public WeatherAdapter(ArrayList<Weather>weatherList){
+    public DailyWeatherAdapter(ArrayList<DailyWeather>weatherList){
         this.sWeatherList = weatherList;
     }
     @NonNull
@@ -46,14 +43,14 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Weather weather = sWeatherList.get(position);
+        DailyWeather weather = sWeatherList.get(position);
         holder.bind(weather);
         View view = holder.itemView;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mListener != null){
-                    mListener.onClick(position);
+                    mListener.onClick(position,v);
                 }
             }
         });
@@ -78,13 +75,12 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
                itemWeatherDescript = itemView.findViewById(R.id.item_weather_description_text_view_id);
                itemImageWeather = itemView.findViewById(R.id.item_image_weather_image_id);
         }
-        void bind(Weather weather){
-            itemDateTime.setText(weather.getDate().toString());
-            itemCurrentTemp.setText(weather.getCurrentTemp());
-            itemWeatherDescript.setText(weather.getWeatherDescription());
+        void bind(DailyWeather weather){
+            itemDateTime.setText(weather.getDT());
+            itemCurrentTemp.setText(weather.getTempDay());
+            itemWeatherDescript.setText(weather.getDescription());
             itemImageWeather.setImageResource(weather.getImageResourceId());
         }
     }
-
 
 }
