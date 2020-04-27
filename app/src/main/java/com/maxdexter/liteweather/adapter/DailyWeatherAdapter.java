@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder>{
   private Listener mListener;
     public interface Listener{
-        void onClick(int position);
+        void onClick(int position,View view);
     }
 
     public void setListener(Listener listener){
@@ -50,7 +50,7 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
             @Override
             public void onClick(View v) {
                 if(mListener != null){
-                    mListener.onClick(position);
+                    mListener.onClick(position,v);
                 }
             }
         });

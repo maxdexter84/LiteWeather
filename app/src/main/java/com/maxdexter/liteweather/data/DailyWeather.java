@@ -1,10 +1,11 @@
 package com.maxdexter.liteweather.data;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DailyWeather {
+public class DailyWeather implements Serializable {
     private String mDT;
     private String mSunrise;
     private String mSunset;

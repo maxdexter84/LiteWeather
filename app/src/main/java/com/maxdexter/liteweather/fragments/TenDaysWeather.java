@@ -2,6 +2,8 @@ package com.maxdexter.liteweather.fragments;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,7 +55,9 @@ public class TenDaysWeather extends Fragment {
     private void adapterListener() {
         dailyWeatherAdapter.setListener(new DailyWeatherAdapter.Listener() {
             @Override
-            public void onClick(int position) {
+            public void onClick(int position,View view) {
+                CardView cardView = (CardView) view;
+                cardView.setMinimumHeight(50);
 
             }
         });

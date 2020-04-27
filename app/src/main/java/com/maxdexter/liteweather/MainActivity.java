@@ -49,13 +49,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
-        if(savedInstanceState == null){
-            changeCity("moscow");
-        }else {
-            searchViewGetText();
-        }
+
 
         searchViewGetText();
+
+
 
 
     }
@@ -134,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
     }
-
     private void updateDailyWeatherData(final double lat, final double lon) {
         new Thread() {//Отдельный поток для запроса на сервер
             public void run() {
@@ -191,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
             nightTemp = "" + min;
             dayTemp = "" + max;
             feelingTemp = " " + feelTemp;
-            weatherDesc = details.getString("description").toUpperCase(Locale.getDefault());
+            weatherDesc = details.getString("description");
             imageResId = getWeatherIcon(weatherDesc);
             weather = new Weather(date,nightTemp,dayTemp,currentTemp,feelingTemp,imageResId,weatherDesc);
             WeatherLab.setmWeather(weather);
@@ -284,6 +281,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
 }
