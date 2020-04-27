@@ -54,7 +54,7 @@ public class TenDaysWeather extends Fragment {
         dailyWeatherAdapter.setListener(new DailyWeatherAdapter.Listener() {
             @Override
             public void onClick(int position) {
-                
+
             }
         });
     }

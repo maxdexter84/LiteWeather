@@ -20,7 +20,6 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.maxdexter.liteweather.data.DailyWeather;
-import com.maxdexter.liteweather.data.SearchLab;
 import com.maxdexter.liteweather.data.Weather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
@@ -41,7 +40,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    SearchLab mSearchLab;
+
     private final Handler handler = new Handler();
 //    AppCache mAppCache = new AppCache(MainActivity.this);
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
-        
+
 
         searchViewGetText();
 
