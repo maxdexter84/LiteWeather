@@ -9,13 +9,22 @@
     tools:context=".fragments.TodayWeather">
 
     <TextView
+        android:id="@+id/city_name_today_fragment_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Санкт Петербург" />
+
+    <TextView
         android:id="@+id/date_time_current_text_view_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_name_today_fragment_id"
         tools:text="21 апреля, 20:03" />
 
     <TextView

@@ -1,23 +1,42 @@
 package com.maxdexter.liteweather.data;
 
-import com.maxdexter.liteweather.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class WeatherLab {
+    private static String place;
+    private static Weather mWeather;
+    private static ArrayList<DailyWeather> mDailyWeathers;
 
-    private ArrayList<Weather> weatherList;
 
-    public ArrayList<Weather> getWeatherList() {
-        return weatherList;
+    public static String getPlace() {
+        return place;
     }
 
-    public WeatherLab(){
-        weatherList = new ArrayList<>();
-        weatherList.add(new Weather("Санкт Петербург","21.04.20","+3","+10","+13","+6", R.drawable.broken_clouds,"Пасмурно"));
-        weatherList.add(new Weather("Санкт Петербург","22.04.20","+4","+3","+11","+5", R.drawable.clear_sky,"Пасмурно"));
-        weatherList.add(new Weather("Санкт Петербург","23.04.20","+6","+5","+9","+3", R.drawable.few_clouds,"Пасмурно"));
-        weatherList.add(new Weather("Санкт Петербург","24.04.20","+4","+2","+8","+4", R.drawable.rain,"Пасмурно"));
-        weatherList.add(new Weather("Санкт Петербург","25.04.20","+9","+1","+4","+6", R.drawable.mist,"Пасмурно"));
+    public static Weather getmWeather() {
+        return mWeather;
+    }
+
+    public static ArrayList<DailyWeather> getmDailyWeathers() {
+        return mDailyWeathers;
+    }
+
+    public static void setPlace(String place) {
+        WeatherLab.place = place;
+    }
+
+    public static void setmWeather(Weather mWeather) {
+        WeatherLab.mWeather = mWeather;
+    }
+
+    public static void setmDailyWeathers(ArrayList<DailyWeather> mDailyWeathers) {
+        WeatherLab.mDailyWeathers = mDailyWeathers;
+    }
+
+    public WeatherLab() {
+
+
     }
 }
