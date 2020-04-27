@@ -63,19 +63,22 @@ public class TodayWeather extends Fragment{
     }
 
     @SuppressLint("SetTextI18n")
-   protected void setContent(int position){
-        Weather weather;
-        if(WeatherLab.getmWeather() != null){
-            weather =  WeatherLab.getmWeather();;
+    private void setContent(int position){
+        DailyWeather dailyWeather = WeatherLab.getmDailyWeathers().get(position);
+
+        Weather weather = WeatherLab.getmWeather();
+        ArrayList<DailyWeather>list = weatherLab.getmDailyWeathers();
+        if(weather != null ){
             int feel = R.string.feeling_by;
             mCityName.setText(WeatherLab.getPlace());
             mCurrentTemp.setText(weather.getCurrentTemp());
             mFeelingTemp.setText("Ощущается как " + weather.getFeelingTemp());
             mImageWeather.setImageResource(weather.getImageResourceId());
             mDateTime.setText(weather.getDate());
-            mDayNightTemp.setText("" + weather.getNightTemp() + " " + weather.getDayTemp());
+            mDayNightTemp.setText("Min " + weather.getNightTemp() +"℃ "+ " Max  " +  weather.getDayTemp()+"℃");
             mWeatherDescript.setText(weather.getWeatherDescription());
         }
+
 
 
     }

@@ -59,20 +59,6 @@ public class TenDaysWeather extends Fragment {
         });
     }
 
-    private void createInitAdapter(View view) {
-        if(WeatherLab.getmDailyWeathers() != null){
-            ArrayList<DailyWeather> value =WeatherLab.getmDailyWeathers();
-            RecyclerView recyclerView = view.findViewById(R.id.recycler_view_ten_days_fragment_id);
-            DailyWeatherAdapter dailyWeatherAdapter = new DailyWeatherAdapter(value);
-            recyclerView.setAdapter(dailyWeatherAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }else{
-            Log.d("TAG","WeatherLab.getWeatherLab() == null");
-        }
 
 
-
-
-
-    }
 }

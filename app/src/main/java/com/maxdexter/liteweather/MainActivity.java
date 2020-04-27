@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
-
+        if(savedInstanceState == null){
+            changeCity("moscow");
+        }else {
+            searchViewGetText();
+        }
 
         searchViewGetText();
 
@@ -221,7 +225,14 @@ public class MainActivity extends AppCompatActivity {
         weatherIcon.put("broken clouds",R.drawable.broken_clouds);
         weatherIcon.put("shower rain",R.drawable.shower_rain);
         weatherIcon.put("thunderstorm",R.drawable.thunderstorm);
+        weatherIcon.put("thunderstorm with light rain",R.drawable.thunderstorm);
+        weatherIcon.put("thunderstorm with rain",R.drawable.thunderstorm);
+        weatherIcon.put("heavy thunderstorm",R.drawable.thunderstorm);
+        weatherIcon.put("light thunderstorm",R.drawable.thunderstorm);
         weatherIcon.put("rain",R.drawable.rain);
+        weatherIcon.put("light rain",R.drawable.rain);
+        weatherIcon.put("moderate rain",R.drawable.rain);
+        weatherIcon.put("heavy intensity rain",R.drawable.rain);
         weatherIcon.put("snow",R.drawable.snow);
         weatherIcon.put("mist",R.drawable.mist);
         for(Map.Entry<String, Integer>pair: weatherIcon.entrySet()){
