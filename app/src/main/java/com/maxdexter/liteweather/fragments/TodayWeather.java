@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.maxdexter.liteweather.MainActivity;
 import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.adapter.WeatherAdapter;
+import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.Weather;
 import com.maxdexter.liteweather.data.WeatherLab;
 
@@ -62,7 +63,7 @@ public class TodayWeather extends Fragment{
     }
 
     @SuppressLint("SetTextI18n")
-    void setContent(int position){
+   protected void setContent(int position){
         Weather weather;
         if(WeatherLab.getmWeather() != null){
             weather =  WeatherLab.getmWeather();;

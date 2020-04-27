@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class TenDaysWeather extends Fragment {
 
-    private WeatherAdapter weatherAdapter;
+    DailyWeatherAdapter dailyWeatherAdapter;
 
     public TenDaysWeather() {
         // Required empty public constructor
@@ -39,13 +39,24 @@ public class TenDaysWeather extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ten_days_weather, container, false);
-       // createInitAdapter(view);
+
         ArrayList<DailyWeather> value =WeatherLab.getmDailyWeathers();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_ten_days_fragment_id);
-        DailyWeatherAdapter dailyWeatherAdapter = new DailyWeatherAdapter(value);
+       dailyWeatherAdapter = new DailyWeatherAdapter(value);
         recyclerView.setAdapter(dailyWeatherAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        adapterListener();
         return view;
+    }
+
+    private void adapterListener() {
+        dailyWeatherAdapter.setListener(new DailyWeatherAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                
+            }
+        });
     }
 
     private void createInitAdapter(View view) {
@@ -53,7 +64,7 @@ public class TenDaysWeather extends Fragment {
             ArrayList<DailyWeather> value =WeatherLab.getmDailyWeathers();
             RecyclerView recyclerView = view.findViewById(R.id.recycler_view_ten_days_fragment_id);
             DailyWeatherAdapter dailyWeatherAdapter = new DailyWeatherAdapter(value);
-            recyclerView.setAdapter(weatherAdapter);
+            recyclerView.setAdapter(dailyWeatherAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }else{
             Log.d("TAG","WeatherLab.getWeatherLab() == null");

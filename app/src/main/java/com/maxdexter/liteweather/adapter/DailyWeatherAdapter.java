@@ -83,8 +83,4 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
         }
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
 }

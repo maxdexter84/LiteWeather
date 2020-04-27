@@ -17,11 +17,8 @@ import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.maxdexter.liteweather.data.AppCache;
-import com.maxdexter.liteweather.data.CreateWeather;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.SearchLab;
 import com.maxdexter.liteweather.data.Weather;
@@ -34,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initToolbar();
         
-       // fragmentTransaction();
+
         searchViewGetText();
 
 
@@ -68,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
             String query = intent.getStringExtra(SearchManager.QUERY);
             changeCity(query);
-//           mSearchLab = new SearchLab();
-//           mSearchLab.addPrevSearched(query);
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
@@ -207,14 +201,14 @@ public class MainActivity extends AppCompatActivity {
     }
     private String initCurrentDate() {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM H:mm", Locale.getDefault());
         String currentDate = dateFormat.format(date);
         return currentDate;
 
     }
     private static String initDate(long date) {
         long currentTime = date * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM H:mm", Locale.getDefault());
         String currentDate = dateFormat.format(currentTime);
         return currentDate;
 
