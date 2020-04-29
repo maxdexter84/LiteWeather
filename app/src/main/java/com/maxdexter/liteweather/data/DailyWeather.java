@@ -1,11 +1,10 @@
 package com.maxdexter.liteweather.data;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
 
 public class DailyWeather implements Serializable {
+    private String mFeeling;
     private String mDT;
     private String mSunrise;
     private String mSunset;
@@ -21,7 +20,12 @@ public class DailyWeather implements Serializable {
     private String mDescription;
     private int mImageResourceId;
 
-    public DailyWeather(String DT, String sunrise, String sunset, String tempDay, String tempMin, String tempMax, String tempNight, String tempEve, String tempMorn, String pressure, String humidity, String wind_speed, String description, int imageResourceId) {
+    public String getFeeling() {
+        return mFeeling;
+    }
+
+    public DailyWeather(String feeling, String DT, String sunrise, String sunset, String tempDay, String tempMin, String tempMax, String tempNight, String tempEve, String tempMorn, String pressure, String humidity, String wind_speed, String description, int imageResourceId) {
+        mFeeling = feeling;
         mDT = DT;
         mSunrise = sunrise;
         mSunset = sunset;
@@ -73,7 +77,6 @@ public class DailyWeather implements Serializable {
     public String getTempMorn() {
         return mTempMorn;
     }
-
 
     public String getPressure() {
         return mPressure;

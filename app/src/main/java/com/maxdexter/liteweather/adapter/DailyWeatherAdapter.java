@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.data.DailyWeather;
-import com.maxdexter.liteweather.data.Weather;
 
 import java.util.ArrayList;
+
+import static android.provider.Settings.System.getString;
 
 public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder>{
   private Listener mListener;
@@ -77,7 +78,7 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
         }
         void bind(DailyWeather weather){
             itemDateTime.setText(weather.getDT());
-            itemCurrentTemp.setText(weather.getTempDay());
+            itemCurrentTemp.setText(weather.getTempDay() + " ℃");
             itemWeatherDescript.setText(weather.getDescription());
             itemImageWeather.setImageResource(weather.getImageResourceId());
         }

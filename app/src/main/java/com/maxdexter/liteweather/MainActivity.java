@@ -20,7 +20,6 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.maxdexter.liteweather.data.DailyWeather;
-import com.maxdexter.liteweather.data.Weather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
@@ -125,14 +124,14 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     handler.post(new Runnable() {
                         public void run() {
-                                renderWeather(json);
+                                getCoordinates(json);
                         }
                     });
                 }
             }
         }.start();
     }
-    private void updateDailyWeatherData(final double lat, final double lon) {
+    private void updateDailyWeatherData(final double lat, final double lon, final String cityName) {
         new Thread() {//Отдельный поток для запроса на сервер
             public void run() {
                 final JSONObject j = WeatherLoader.getDataSevenDays(lat,lon);
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     handler.post(new Runnable() {
                         public void run() {
                             try {
-                                addWeather(j);
+                                addWeather(j,cityName);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -159,56 +158,24 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
-    //Обработка загруженных данных и обновление UI
+    //Получение координат по названию города
     @SuppressLint("DefaultLocale")
-    private void renderWeather(JSONObject json) {
-        Weather weather;
+    private void getCoordinates(JSONObject json) {
         String cityName;
-        String date = initCurrentDate();
-        String currentTemp;
-        String nightTemp;
-        String dayTemp;
-        String feelingTemp;
-        String weatherDesc;
-        int imageResId;
-
         try{
             JSONObject coord = json.getJSONObject("coord");
-            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-            JSONObject main = json.getJSONObject("main");
-            int temp =  (int)main.getDouble("temp");
-            int min = (int)main.getDouble("temp_min");
-            int max = (int)main.getDouble("temp_max");
-            int feelTemp = (int)main.getDouble("feels_like");
             double lat = coord.getDouble("lat");
             double lon = coord.getDouble("lon");
-            updateDailyWeatherData(lat,lon);
             cityName = json.getString("name").toUpperCase(Locale.getDefault());
-            currentTemp = String.format("%d %s",temp," ℃");
-            nightTemp = "" + min;
-            dayTemp = "" + max;
-            feelingTemp = " " + feelTemp;
-            weatherDesc = details.getString("description");
-            imageResId = getWeatherIcon(weatherDesc);
-            weather = new Weather(date,nightTemp,dayTemp,currentTemp,feelingTemp,imageResId,weatherDesc);
-            WeatherLab.setmWeather(weather);
-            WeatherLab.setPlace(cityName);
+            updateDailyWeatherData(lat,lon,cityName);
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }
-
-
     }
-    private String initCurrentDate() {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM H:mm", Locale.getDefault());
-        String currentDate = dateFormat.format(date);
-        return currentDate;
 
-    }
     private static String initDate(long date) {
         long currentTime = date * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMMM H:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm ", Locale.forLanguageTag("ru"));
         String currentDate = dateFormat.format(currentTime);
         return currentDate;
 
@@ -220,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         weatherIcon.put("few clouds",R.drawable.few_clouds);
         weatherIcon.put("scattered clouds",R.drawable.scattered_clouds);
         weatherIcon.put("broken clouds",R.drawable.broken_clouds);
+        weatherIcon.put("overcast clouds",R.drawable.scattered_clouds);
         weatherIcon.put("shower rain",R.drawable.shower_rain);
         weatherIcon.put("thunderstorm",R.drawable.thunderstorm);
         weatherIcon.put("thunderstorm with light rain",R.drawable.thunderstorm);
@@ -231,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         weatherIcon.put("moderate rain",R.drawable.rain);
         weatherIcon.put("heavy intensity rain",R.drawable.rain);
         weatherIcon.put("snow",R.drawable.snow);
+        weatherIcon.put("light snow",R.drawable.snow);
         weatherIcon.put("mist",R.drawable.mist);
         for(Map.Entry<String, Integer>pair: weatherIcon.entrySet()){
             String key = pair.getKey();
@@ -242,19 +211,19 @@ public class MainActivity extends AppCompatActivity {
         }
         return icon;
     }
-    public void addWeather(JSONObject json) throws JSONException {
+    public void addWeather(JSONObject json,String cityName) throws JSONException {
         JSONArray arr;
         JSONObject day;
         DailyWeather dailyWeather;
         ArrayList<DailyWeather> weathersList = new ArrayList<>();
         try{
-
             arr = json.getJSONArray("daily");
             for (int i = 0; i < arr.length(); i++) {
                 day = arr.getJSONObject(i);
                 JSONObject temp = day.getJSONObject("temp");
                 JSONObject feels_like = day.getJSONObject("feels_like");
                 JSONObject weather = day.getJSONArray("weather").getJSONObject(0);
+                String feeling = (int)feels_like.getDouble("day") + "";
                 String DT = initDate(day.getLong("dt"));
                 String sunrise = initDate(day.getLong("sunrise"));
                 String sunset = initDate(day.getLong("sunset"));
@@ -269,11 +238,12 @@ public class MainActivity extends AppCompatActivity {
                 String wind_speed = (int) day.getDouble("wind_speed") + " ";
                 String description = weather.getString("description");
                 int imageResourceId = getWeatherIcon(description);
-                dailyWeather = new DailyWeather(DT, sunrise, sunset, tempDay, tempMin, tempMax,
+                dailyWeather = new DailyWeather(feeling,DT, sunrise, sunset, tempDay, tempMin, tempMax,
                         tempNight, tempEve, tempMorn, pressure, humidity, wind_speed, description, imageResourceId);
                 weathersList.add(dailyWeather);
             }
-            WeatherLab.setmDailyWeathers(weathersList);
+            WeatherLab.get(this).setPlace(cityName);
+            WeatherLab.get(this).setDailyWeathers(weathersList);
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {

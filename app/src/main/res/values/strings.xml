@@ -13,4 +13,8 @@
 
     <string name="positive_button">Подтвердить</string>
     <string name="negative_button">Отменить</string>
+    <string name="min_temp"> Min </string>
+    <string name="max_temp"> Max </string>
+    <string name="temp_metric">℃ </string>
+    <string name="feeling">\"feeling by \"</string>
 </resources>

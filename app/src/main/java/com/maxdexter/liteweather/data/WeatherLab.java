@@ -1,42 +1,55 @@
 package com.maxdexter.liteweather.data;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import android.content.Context;
+
+import java.util.List;
 
 
 public class WeatherLab {
-    private static String place;
-    private static Weather mWeather;
-    private static ArrayList<DailyWeather> mDailyWeathers;
+    private static WeatherLab sWeatherLab;
+    private String mPlace;
 
-
-    public static String getPlace() {
-        return place;
+    public void setPlace(String place) {
+        mPlace = place;
     }
 
-    public static Weather getmWeather() {
-        return mWeather;
+    public void setDailyWeathers(List<DailyWeather> dailyWeathers) {
+        mDailyWeathers = dailyWeathers;
     }
 
-    public static ArrayList<DailyWeather> getmDailyWeathers() {
+    private List<DailyWeather> mDailyWeathers;
+
+    public String getPlace() {
+        return mPlace;
+    }
+
+    public DailyWeather getDailyWeather(int position){
+        DailyWeather dailyWeather;
+        if(mDailyWeathers.get(position) != null){
+            dailyWeather = mDailyWeathers.get(position);
+            return dailyWeather;
+        }
+        return null;
+    }
+
+    public List<DailyWeather> getDailyWeathers() {
         return mDailyWeathers;
     }
 
-    public static void setPlace(String place) {
-        WeatherLab.place = place;
+    public WeatherLab(Context context) {
+
     }
 
-    public static void setmWeather(Weather mWeather) {
-        WeatherLab.mWeather = mWeather;
-    }
 
-    public static void setmDailyWeathers(ArrayList<DailyWeather> mDailyWeathers) {
-        WeatherLab.mDailyWeathers = mDailyWeathers;
+    public static WeatherLab get(Context context){
+    if(sWeatherLab == null){
+        sWeatherLab = new WeatherLab(context);
+    }
+        return sWeatherLab;
     }
 
     public WeatherLab() {
-
-
     }
 }
