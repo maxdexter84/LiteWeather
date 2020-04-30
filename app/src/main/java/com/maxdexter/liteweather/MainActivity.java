@@ -1,10 +1,13 @@
 package com.maxdexter.liteweather;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
@@ -20,13 +23,15 @@ import android.view.Menu;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.maxdexter.liteweather.adapter.SectionsPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
+import com.maxdexter.liteweather.fragments.TomorrowFragment;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +39,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -55,12 +59,16 @@ public class MainActivity extends AppCompatActivity {
         searchViewGetText();
 
       updateWeatherData(mAppCache.getSavedCity());
+
+
     }
 
     private void initViewPager() {
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager pager = findViewById(R.id.view_pager_id);
         pager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(pager);
     }
 
     private void searchViewGetText() {
@@ -74,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
-
         }
     }
 
@@ -244,5 +251,37 @@ public class MainActivity extends AppCompatActivity {
             initViewPager();
         }
 
+    }
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
+        public SectionsPagerAdapter(@NonNull FragmentManager fm) {
+            super(fm);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0: return new TodayWeather();
+                case 1: return new TomorrowFragment();
+                case 2: return new TenDaysWeather();
+            }
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                case 0:return getResources().getText(R.string.today_button);
+                case 1:return getResources().getText(R.string.tomorrow_button);
+                case 2:return getResources().getText(R.string.week_button);
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 }

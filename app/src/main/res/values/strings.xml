@@ -21,4 +21,9 @@
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
     <string name="feeling_temp">"Feeling "</string>
+
+
+    <string name="today_button">Today</string>
+    <string name="tomorrow_button">Tomorrow</string>
+    <string name="week_button">Week</string>
 </resources>
