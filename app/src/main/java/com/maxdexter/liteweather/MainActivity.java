@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 
 import android.annotation.SuppressLint;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.maxdexter.liteweather.adapter.SectionsPagerAdapter;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
@@ -53,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
         searchViewGetText();
 
       updateWeatherData(mAppCache.getSavedCity());
+    }
 
-
+    private void initViewPager() {
+        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewPager pager = findViewById(R.id.view_pager_id);
+        pager.setAdapter(pagerAdapter);
     }
 
     private void searchViewGetText() {
@@ -75,20 +81,6 @@ public class MainActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    }
-
-    public void fragmentTransaction() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container_main);
-        Fragment listFragment = fm.findFragmentById(R.id.fragment_container_list);
-        if(fragment == null){
-            fragment = new TodayWeather();
-            fm.beginTransaction().add(R.id.fragment_container_main,fragment).commit();
-        }else fm.beginTransaction().replace(R.id.fragment_container_main,fragment).commit();
-        if(listFragment == null){
-            listFragment = new TenDaysWeather();
-            fm.beginTransaction().add(R.id.fragment_container_list,listFragment).commit();
-        }
     }
 
     @Override
@@ -249,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
-            fragmentTransaction();
+            initViewPager();
         }
 
     }
