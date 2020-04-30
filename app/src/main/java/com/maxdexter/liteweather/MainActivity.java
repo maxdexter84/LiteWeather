@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
@@ -41,18 +42,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     private final Handler handler = new Handler();
-//    AppCache mAppCache = new AppCache(MainActivity.this);
+    AppCache mAppCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
-
-
+        mAppCache = new AppCache(this);
         searchViewGetText();
 
-
+      updateWeatherData(mAppCache.getSavedCity());
 
 
     }
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
+
         }
     }
 
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     //Обновляем вид, сохраняем выбранный город
     public void changeCity(String city) {
         updateWeatherData(city);
-       // mAppCache.saveCity(city);
+        mAppCache.saveCity(city);
     }
     //Обновление/загрузка погодных данных
     private void updateWeatherData(final String city) {
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             double lon = coord.getDouble("lon");
             cityName = json.getString("name").toUpperCase(Locale.getDefault());
             updateDailyWeatherData(lat,lon,cityName);
+
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }
@@ -175,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String initDate(long date) {
         long currentTime = date * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm ", Locale.forLanguageTag("ru"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.forLanguageTag("ru"));
         String currentDate = dateFormat.format(currentTime);
         return currentDate;
 

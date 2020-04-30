@@ -17,4 +17,8 @@
     <string name="max_temp"> Max </string>
     <string name="temp_metric">℃ </string>
     <string name="feeling">\"feeling by \"</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="feeling_temp">"Feeling "</string>
 </resources>

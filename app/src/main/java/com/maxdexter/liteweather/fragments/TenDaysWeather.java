@@ -41,20 +41,10 @@ public class TenDaysWeather extends Fragment {
         recyclerView.setAdapter(dailyWeatherAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapterListener();
+
         return view;
     }
 
-    private void adapterListener() {
-        dailyWeatherAdapter.setListener(new DailyWeatherAdapter.Listener() {
-            @Override
-            public void onClick(int position,View view) {
-                CardView cardView = (CardView) view;
-                cardView.setMinimumHeight(50);
-
-            }
-        });
-    }
 
 
 
