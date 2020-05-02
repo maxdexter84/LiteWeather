@@ -15,7 +15,8 @@
 <color name="black">#635858</color>
 
 
-    <color name="myColorPrimaryDarkTransparent">#33219BC3</color>
+    <color name="myColorPrimaryDarkTransparent">#A1219BC3</color>
     <color name="myColorPrimaryTransparent">#B2D3E1</color>
-    <color name="myColorAccentTransparent">#CCF2CFDA</color>
+    <color name="myColorAccentTransparent">#F2CFDA</color>
+    <color name="myColor">#00000000</color>
 </resources>
