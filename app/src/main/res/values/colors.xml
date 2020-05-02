@@ -12,4 +12,5 @@
     <color name="white">#73FFFFFF</color>
     <color name="transparentWhite">#7BFFFFFF</color>
     <color name="myColorBackground">#6E8BC34A</color>
+<color name="black">#000000</color>
 </resources>

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,10 +20,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+
 import android.util.Log;
 import android.view.Menu;
-import android.widget.SearchView;
+import android.view.MenuItem;
+import android.widget.EditText;
+//import android.widget.SearchView;
 import android.widget.Toast;
+
 
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mAppCache = new AppCache(this);
         searchViewGetText();
 
-      updateWeatherData(mAppCache.getSavedCity());
+         updateWeatherData(mAppCache.getSavedCity());
 
 
     }
@@ -75,10 +81,8 @@ public class MainActivity extends AppCompatActivity {
         //получаем строку поиска из намерения ACTION_SEARCH
         Intent intent  = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-
             String query = intent.getStringExtra(SearchManager.QUERY);
             changeCity(query);
-
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
@@ -88,19 +92,38 @@ public class MainActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search,menu);
 //Инициализация SearchView  в menu
+        initSearchView(menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.tools:
+                Toast.makeText(this,"TOOLS",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initSearchView(Menu menu) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-// Здесь можно указать будет ли строка поиска изначально развернута или свернута в значок
-        searchView.setIconifiedByDefault(true);
-
-        return true;
+        searchView.onActionViewExpanded();
+        searchView.setQueryHint(mAppCache.getSavedCity().toUpperCase());
+        EditText editText = searchView.findViewById(R.id.search_src_text);
+        editText.setTextSize(24);
+        editText.setHintTextColor(getResources().getColor(R.color.black));
+        editText.setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     //Обновляем вид, сохраняем выбранный город

@@ -61,16 +61,13 @@ public class TodayWeather extends Fragment{
         if(dailyWeather != null ){
             int feel = R.string.feeling_by;
             mCityName.setText(city);
-            mCurrentTemp.setText(dailyWeather.getTempDay());
+            mCurrentTemp.setText(dailyWeather.getTempDay() + " " + getString(R.string.temp_metric));
             mFeelingTemp.setText(getString(R.string.feeling) +" " + dailyWeather.getFeeling() + getString(R.string.temp_metric));
             mImageWeather.setImageResource(dailyWeather.getImageResourceId());
             mDateTime.setText(dailyWeather.getDT());
             mDayNightTemp.setText(getString(R.string.min_temp) +" "+ dailyWeather.getTempMin()+" " +getString(R.string.temp_metric)+ " : "+ getString(R.string.max_temp) +" "+  dailyWeather.getTempMax()+" " +getString(R.string.temp_metric));
             mWeatherDescript.setText(dailyWeather.getDescription());
         }
-
-
-
     }
 
 
