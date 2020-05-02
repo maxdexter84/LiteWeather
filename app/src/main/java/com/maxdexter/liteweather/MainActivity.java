@@ -25,7 +25,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-//import android.widget.SearchView;
 import android.widget.Toast;
 
 
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String initDate(long date) {
         long currentTime = date * 1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.forLanguageTag("ru"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM ", Locale.getDefault());
         return dateFormat.format(currentTime);
     }
     private static String initTime(long date) {
@@ -203,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         return dateFormat.format(current);
     }
     private  int getWeatherIcon(String weather){
-        int icon = R.drawable.clear_sky;
+        int icon = R.drawable.scattered_clouds;
         HashMap<String, Integer> weatherIcon = new HashMap<>();
         weatherIcon.put("clear sky", R.drawable.clear_sky);
         weatherIcon.put("few clouds",R.drawable.few_clouds);

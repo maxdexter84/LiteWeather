@@ -15,8 +15,13 @@
         <item name="colorAccent">@color/myColorAccent</item>
 
     </style>
+    <style name="MyThemeTransparent" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/myColorPrimaryTransparent</item>
+        <item name="colorPrimaryDark">@color/myColorPrimaryDarkTransparent</item>
+        <item name="colorAccent">@color/myColorAccentTransparent</item>
 
-
+    </style>
 
 
 

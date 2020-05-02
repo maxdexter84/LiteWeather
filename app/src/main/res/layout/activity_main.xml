@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/myColorBackground"
+    android:background="@drawable/some_clouds__sun_by_16_9_mattahan"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
@@ -12,11 +12,13 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/myColorPrimaryTransparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-    <include
-         layout="@layout/toolbar_main"/>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_main"/>
 
 
         <com.google.android.material.tabs.TabLayout
