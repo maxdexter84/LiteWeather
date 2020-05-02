@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -17,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
@@ -24,7 +26,9 @@ import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
@@ -63,9 +67,7 @@ public class MainActivity extends AppCompatActivity {
         initToolbar();
         mAppCache = new AppCache(this);
         searchViewGetText();
-
          updateWeatherData(mAppCache.getSavedCity());
-
 
     }
 
@@ -105,7 +107,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.tools:
+                Intent intent = new Intent(this, ToolsActivity.class);
+                startActivityForResult(intent,REQUEST_TOOLS);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initSearchView(Menu menu) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -268,10 +278,34 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
-            initViewPager();
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                initViewPager();
+            }else {
+                initLand();
+            }
+
         }
 
+
     }
+    private void initLand(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            FrameLayout fl = findViewById(R.id.recycler_frag);
+            if (fl != null){
+                FragmentManager fm =getSupportFragmentManager();
+                Fragment fragment = fm.findFragmentById(R.id.recycler_frag);
+                Fragment fragment1 = fm.findFragmentById(R.id.details_frag);
+                if(fragment == null){
+                    fragment = new TenDaysWeather();
+                    fragment1 = new TodayWeather();
+                    fm.beginTransaction().add(R.id.recycler_frag,fragment).commit();
+                    fm.beginTransaction().add(R.id.details_frag,fragment1).commit();
+                }
+
+            }
+       }
+    }
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         public SectionsPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
