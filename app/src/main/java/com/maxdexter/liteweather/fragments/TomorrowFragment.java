@@ -20,9 +20,7 @@ import com.maxdexter.liteweather.data.WeatherLab;
  */
 public class TomorrowFragment extends Fragment {
 
-    private WeatherLab weatherLab;
     private int defaultPosition = 1;
-    private TextView mCityName;
     private TextView mCurrentTemp;
     private TextView mFeelingTemp;
     private ImageView mImageWeather;

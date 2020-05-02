@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(24);
         editText.setHintTextColor(getResources().getColor(R.color.black));
+        searchView.setFocusable(false);
 
     }
 
@@ -194,9 +195,12 @@ public class MainActivity extends AppCompatActivity {
     private static String initDate(long date) {
         long currentTime = date * 1000;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM HH:mm", Locale.forLanguageTag("ru"));
-        String currentDate = dateFormat.format(currentTime);
-        return currentDate;
-
+        return dateFormat.format(currentTime);
+    }
+    private static String initTime(long date) {
+        long current = date * 1000;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.forLanguageTag("ru"));
+        return dateFormat.format(current);
     }
     private  int getWeatherIcon(String weather){
         int icon = R.drawable.clear_sky;
@@ -243,8 +247,8 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject weather = day.getJSONArray("weather").getJSONObject(0);
                 String feeling = (int)feels_like.getDouble("day") + "";
                 String DT = initDate(day.getLong("dt"));
-                String sunrise = initDate(day.getLong("sunrise"));
-                String sunset = initDate(day.getLong("sunset"));
+                String sunrise = initTime(day.getLong("sunrise"));
+                String sunset = initTime(day.getLong("sunset"));
                 String tempDay = (int) temp.getDouble("day") + "";
                 String tempMin = (int) temp.getDouble("min") + "";
                 String tempMax = (int) temp.getDouble("max") + "";
