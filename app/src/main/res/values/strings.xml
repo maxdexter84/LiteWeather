@@ -3,20 +3,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ten_days_text">Прогноз на 10 дней</string>
     <string name="search">search</string>
-    <string name="search_title">Поиск</string>
-    <string name="search_hint">Выбрать город</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Select city</string>
 
-    <string name="feeling_by">Ощущается как</string>
+    <string name="feeling_by">Feeling by как</string>
     <string name="place_name">Введите название города</string>
 
-    <string name="positive_button">Подтвердить</string>
-    <string name="negative_button">Отменить</string>
+
     <string name="min_temp"> Min </string>
     <string name="max_temp"> Max </string>
     <string name="temp_metric">℃ </string>
-    <string name="feeling">\"feeling by \"</string>
+    <string name="feeling">feeling by </string>
     <string name="wind_speed">Wind speed</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>

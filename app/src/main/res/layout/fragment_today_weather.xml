@@ -8,149 +8,134 @@
     android:layout_margin="8dp"
     tools:context=".fragments.TodayWeather">
 
-    <TextView
-        android:id="@+id/city_name_today_fragment_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:layout_margin="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Санкт Петербург" />
 
-    <TextView
-        android:id="@+id/date_time_current_text_view_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_name_today_fragment_id"
-        tools:text="21 апреля, 20:03" />
 
-    <TextView
-        android:id="@+id/day_night_text_view_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_time_current_text_view_id"
-        tools:text="Днем +12; Ночью +2" />
 
-    <TextView
-        android:id="@+id/current_temp_text_view_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:textSize="45sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_night_text_view_id"
-        tools:text="+10 C" />
 
-    <TextView
-        android:id="@+id/feeling_temp_text_view_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_margin="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_temp_text_view_id"
-        tools:text="Ощущается как +7 С" />
+        <TextView
+            android:id="@+id/date_time_current_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="21 апреля, 20:03" />
 
-    <ImageView
-        android:id="@+id/image_weather_image_id"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/current_temp_text_view_id"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/day_night_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_time_current_text_view_id"
+            tools:text="Днем +12; Ночью +2" />
 
-    <TextView
-        android:id="@+id/weather_description_text_view_id"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_weather_image_id"
-        tools:text="Переменная облачнотсь" />
+        <TextView
+            android:id="@+id/current_temp_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textSize="45sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/day_night_text_view_id"
+            tools:text="+10 C" />
+
+        <TextView
+            android:id="@+id/feeling_temp_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_temp_text_view_id"
+            tools:text="Ощущается как +7 С" />
+
+        <ImageView
+            android:id="@+id/image_weather_image_id"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/current_temp_text_view_id"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/weather_description_text_view_id"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_weather_image_id"
+            tools:text="Переменная облачнотсь" />
 
     <LinearLayout
         android:id="@+id/weather_details_id"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="31dp"
+        android:orientation="vertical"
         android:padding="8dp"
-        android:visibility="visible"
-        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feeling_temp_text_view_id">
+        app:layout_constraintTop_toBottomOf="@+id/weather_description_text_view_id">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+
 
             <TextView
                 android:id="@+id/wind_title_id"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/wind_speed" />
+                android:text="@string/wind_speed"
+                android:textSize="16sp" />
 
 
             <TextView
                 android:id="@+id/humidity_title_id"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/humidity" />
+                android:text="@string/humidity"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/pressure_title_id"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/pressure" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
+                android:text="@string/pressure"
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/title_min_id"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/min_temp" />
+                android:text="@string/min_temp"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/title_max_id"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/max_temp" />
+                android:text="@string/max_temp"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/feeling_title_id"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/feeling_temp" />
-        </LinearLayout>
+                android:text="@string/feeling_temp"
+                android:textSize="16sp" />
+
+
+
+
+
 
     </LinearLayout>
 

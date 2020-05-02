@@ -53,6 +53,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final int REQUEST_TOOLS =0 ;
     private final Handler handler = new Handler();
     AppCache mAppCache;
 
@@ -105,14 +106,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.tools:
-                Toast.makeText(this,"TOOLS",Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     private void initSearchView(Menu menu) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -123,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(24);
         editText.setHintTextColor(getResources().getColor(R.color.black));
-        editText.setBackgroundColor(getResources().getColor(R.color.white));
+
     }
 
     //Обновляем вид, сохраняем выбранный город
