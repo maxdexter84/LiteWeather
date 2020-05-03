@@ -20,7 +20,7 @@ public final class AppCache {
     }
 
     // Возвращаем город по умолчанию, если SharedPreferences пустые
-    String getSavedCity() {
+    public String getSavedCity() {
         return userPreferences.getString(CITY_KEY, DEFAULT_TOWN);
     }
 

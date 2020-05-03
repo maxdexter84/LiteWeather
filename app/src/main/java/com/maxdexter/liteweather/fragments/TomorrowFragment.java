@@ -15,33 +15,30 @@ import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 
-import java.util.ArrayList;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TodayWeather extends Fragment{
-    private WeatherLab weatherLab;
-    private int defaultPosition = 0;
-    private TextView mCityName;
+public class TomorrowFragment extends Fragment {
+
+    private int defaultPosition = 1;
     private TextView mCurrentTemp;
     private TextView mFeelingTemp;
     private ImageView mImageWeather;
     private TextView mDateTime;
     private TextView mDayNightTemp;
     private TextView mWeatherDescript;
-   private TextView mWindSpeed;
-   private TextView mHumidity;
-   private TextView mPressure;
-   private TextView mTempMin;
-   private TextView mTempMax;
-   private TextView mSunriseSunset;
+    private TextView mWindSpeed;
+    private TextView mHumidity;
+    private TextView mPressure;
+    private TextView mTempMin;
+    private TextView mTempMax;
+    private TextView mSunriseSunset;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
+        View view = inflater.inflate(R.layout.fragment_today_weather, container, false);
         init(view);
         setContent(defaultPosition);
         return view;
@@ -75,12 +72,12 @@ public class TodayWeather extends Fragment{
             mDateTime.setText(dailyWeather.getDT());
             mDayNightTemp.setText(getString(R.string.min_temp) +" "+ dailyWeather.getTempMin()+" " +getString(R.string.temp_metric)+ " : "+ getString(R.string.max_temp) +" "+  dailyWeather.getTempMax()+" " +getString(R.string.temp_metric));
             mWeatherDescript.setText(dailyWeather.getDescription());
-               String wind = String.format("Wind speed " + "                    " + "%s" + "m/s",dailyWeather.getWind_speed());
-           String humidity = String.format("Humidity " + "                      " + " %s" + "%%",dailyWeather.getHumidity());
-           String pressure = String.format("Pressure " + "                      " + " %s" + "mm",dailyWeather.getPressure());
+            String wind = String.format("Wind speed " + "                    " + "%s" + "m/s",dailyWeather.getWind_speed());
+            String humidity = String.format("Humidity " + "                      " + " %s" + "%%",dailyWeather.getHumidity());
+            String pressure = String.format("Pressure " + "                      " + " %s" + "mm",dailyWeather.getPressure());
             String tempMin = String.format("Min " + "                           " + "   %s" + getString(R.string.temp_metric),dailyWeather.getTempMin());
             String tempMax = String.format("Max " + "                           " + "   %s" + getString(R.string.temp_metric),dailyWeather.getTempMax());
-           String sunriseSunset = String.format("Sunrise/sunset " + "           " + "%s"+"/ %s" ,dailyWeather.getSunrise(),dailyWeather.getSunset());
+            String sunriseSunset = String.format("Sunrise/sunset " + "           " + "%s"+"/ %s" ,dailyWeather.getSunrise(),dailyWeather.getSunset());
             mWindSpeed.setText(wind);
             mHumidity.setText(humidity);
             mPressure.setText(pressure);
@@ -90,8 +87,6 @@ public class TodayWeather extends Fragment{
 
         }
     }
-
-
 
 
 
