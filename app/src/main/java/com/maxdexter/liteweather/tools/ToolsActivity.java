@@ -1,9 +1,11 @@
-package com.maxdexter.liteweather;
+package com.maxdexter.liteweather.tools;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+
+import com.maxdexter.liteweather.R;
 
 public class ToolsActivity extends AppCompatActivity {
 
