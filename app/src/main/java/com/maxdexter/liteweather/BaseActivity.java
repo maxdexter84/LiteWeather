@@ -1,25 +1,35 @@
-package com.maxdexter.liteweather.tools;
+package com.maxdexter.liteweather;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.maxdexter.liteweather.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String sNameSharedPreference = "LOGIN";
     //Имя параметра в настройках
-    private static final String sISDarkThem = "IS_DARK_THEM";
+    private static final String IsDarkThem = "IS_DARK_THEM";
+
+
+
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if(isDarkTheme()){
-            setTheme(R.style.MyThemeTransparent);
+            setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.MyThemeTransparent);
+
         }
 
 
@@ -29,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected boolean isDarkTheme(){
         SharedPreferences sharedPref = getSharedPreferences(sNameSharedPreference, MODE_PRIVATE);
         // Если настройка не найдена , то берется параметр по умолчанию
-        return sharedPref.getBoolean(sISDarkThem,false);
+        return sharedPref.getBoolean(IsDarkThem,true);
     }
 
     //Сохранение настроек
@@ -37,6 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(sNameSharedPreference,MODE_PRIVATE);
         //Параметры сохраняются посредствам специального класса editor
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(sISDarkThem,isDarkTheme);
+        editor.putBoolean(IsDarkThem,isDarkTheme);
         editor.apply();
-    }}
+    }
+
+}

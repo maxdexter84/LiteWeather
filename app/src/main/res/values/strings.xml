@@ -25,4 +25,5 @@
     <string name="week_button">Week</string>
     <string name="tools">tools</string>
     <string name="dark_theme">Dark theme</string>
+    <string name="setting_title">Setting</string>
 </resources>

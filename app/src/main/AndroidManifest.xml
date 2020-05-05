@@ -10,8 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyThemeTransparent">
-        <activity android:name=".tools.SettingActivity"></activity>
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+    <activity android:name=".SettingActivity" android:parentActivityName=".MainActivity" android:label="@string/setting_title"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
