@@ -29,5 +29,9 @@
         <item name="colorPrimaryDark">@color/myColorPrimaryDark</item>
         <item name="colorAccent">@color/myColorAccent</item>
     </style>
+    <style name="TextStyle">
+        <item name="android:textSize">24dp</item>
+
+    </style>
 
 </resources>
