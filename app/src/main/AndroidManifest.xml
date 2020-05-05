@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyThemeTransparent">
-        <activity android:name=".tools.ToolsActivity"></activity>
+        <activity android:name=".tools.SettingActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

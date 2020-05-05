@@ -24,4 +24,5 @@
     <string name="tomorrow_button">Tomorrow</string>
     <string name="week_button">Week</string>
     <string name="tools">tools</string>
+    <string name="dark_theme">Dark theme</string>
 </resources>
