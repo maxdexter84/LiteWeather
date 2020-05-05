@@ -38,7 +38,8 @@ import com.maxdexter.liteweather.data.WeatherLoader;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
-import com.maxdexter.liteweather.tools.ToolsActivity;
+import com.maxdexter.liteweather.tools.BaseActivity;
+import com.maxdexter.liteweather.tools.SettingActivity;
 
 
 import org.json.JSONArray;
@@ -52,10 +53,10 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+public static final int SETTING_CODE = 77;
 
 
-    private static final int REQUEST_TOOLS =0 ;
     private final Handler handler = new Handler();
     AppCache mAppCache;
 
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         mAppCache = new AppCache(this);
         searchViewGetText();
          updateWeatherData(mAppCache.getSavedCity());
-
     }
 
     private void initViewPager() {
@@ -110,10 +110,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.tools:
-                Intent intent = new Intent(this, ToolsActivity.class);
-                startActivityForResult(intent,REQUEST_TOOLS);
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivityForResult(intent,SETTING_CODE);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SETTING_CODE){
+            recreate();
+        }
     }
 
     private void initSearchView(Menu menu) {

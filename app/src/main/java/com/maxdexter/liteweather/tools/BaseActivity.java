@@ -16,19 +16,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-            if(isDarkTheme()){
-                setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
-            } else {
-                setTheme(R.style.MyTheme);
-            }
+        if(isDarkTheme()){
+            setTheme(R.style.MyThemeTransparent);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+
+
 
     }
     //Чтенеие настроек
     protected boolean isDarkTheme(){
         SharedPreferences sharedPref = getSharedPreferences(sNameSharedPreference, MODE_PRIVATE);
         // Если настройка не найдена , то берется параметр по умолчанию
-        return sharedPref.getBoolean(sISDarkThem,true);
+        return sharedPref.getBoolean(sISDarkThem,false);
     }
 
     //Сохранение настроек
