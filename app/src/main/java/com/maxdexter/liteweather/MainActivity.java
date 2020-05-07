@@ -2,11 +2,13 @@ package com.maxdexter.liteweather;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -18,13 +20,16 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -38,8 +43,6 @@ import com.maxdexter.liteweather.data.WeatherLoader;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
-import com.maxdexter.liteweather.tools.BaseActivity;
-import com.maxdexter.liteweather.tools.SettingActivity;
 
 
 import org.json.JSONArray;
@@ -64,10 +67,15 @@ public static final int SETTING_CODE = 77;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if( AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES){
+            ConstraintLayout constraints = findViewById(R.id.main_activity);
+            constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
+        }
         initToolbar();
         mAppCache = new AppCache(this);
         searchViewGetText();
          updateWeatherData(mAppCache.getSavedCity());
+
     }
 
     private void initViewPager() {
