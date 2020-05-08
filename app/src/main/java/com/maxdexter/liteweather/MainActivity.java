@@ -141,7 +141,7 @@ public static final int SETTING_CODE = 77;
         EditText editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(24);
         editText.setHintTextColor(getResources().getColor(R.color.black));
-        searchView.setFocusable(false);
+        searchView.clearFocus();
 
     }
 
