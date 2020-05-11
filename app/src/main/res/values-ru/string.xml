@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">LiteWeather</string>
+
+
+    <string name="search">search</string>
+    <string name="search_title">Поиск</string>
+    <string name="search_hint">Выберите город</string>
+
+    <string name="feeling_by">Ощущается как</string>
+    <string name="place_name">Введите название города</string>
+
+
+    <string name="min_temp"> Мин </string>
+    <string name="max_temp"> Макс </string>
+    <string name="temp_metric">℃ </string>
+    <string name="feeling">ощущается как </string>
+    <string name="wind_speed">Скорость ветра</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление</string>
+    <string name="feeling_temp">"Feeling "</string>
+
+
+    <string name="today_button">Сегодня</string>
+    <string name="tomorrow_button">Завтра</string>
+    <string name="week_button">Неделя</string>
+    <string name="tools">настройки</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="setting_title">Настройки</string>
+</resources>
