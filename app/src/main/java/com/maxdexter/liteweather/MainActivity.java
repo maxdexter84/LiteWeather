@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Constraints;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -35,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
@@ -56,7 +59,8 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    Toolbar toolbar;
 public static final int SETTING_CODE = 77;
 
 
@@ -72,10 +76,24 @@ public static final int SETTING_CODE = 77;
             constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
         }
         initToolbar();
+        initDrawerLayout();
+        initNavView();
         mAppCache = new AppCache(this);
         searchViewGetText();
          updateWeatherData(mAppCache.getSavedCity());
 
+    }
+
+    private void initNavView() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initDrawerLayout() {
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.nav_open_draw,R.string.nav_close_draw);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     private void initViewPager() {
@@ -99,7 +117,7 @@ public static final int SETTING_CODE = 77;
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -319,6 +337,21 @@ public static final int SETTING_CODE = 77;
 
             }
        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.history_box:
+                Intent intent = EmptyActivity.newIntent(this,EmptyActivity.HISTORY_FRAG);
+                startActivity(intent);
+                return true;
+            case R.id.info_box:
+                Intent intent2 = EmptyActivity.newIntent(this,EmptyActivity.INFO_FRAG);
+                startActivity(intent2);
+                return true;
+        }
+        return false;
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {

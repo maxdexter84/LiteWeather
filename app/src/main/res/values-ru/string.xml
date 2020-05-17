@@ -26,4 +26,9 @@
     <string name="tools">настройки</string>
     <string name="dark_theme">Темная тема</string>
     <string name="setting_title">Настройки</string>
+
+    <string name="history_tytle">История</string>
+    <string name="info_title">Информация</string>
+    <string name="nav_open_draw">Открыть боковое меню</string>
+    <string name="nav_close_draw">Закрыть боковое меню</string>
 </resources>
