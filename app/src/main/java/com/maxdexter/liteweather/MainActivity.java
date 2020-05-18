@@ -45,6 +45,9 @@ import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
+import com.maxdexter.liteweather.fragments.HistoryFragment;
+import com.maxdexter.liteweather.fragments.InfoFragment;
+import com.maxdexter.liteweather.fragments.PagerFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
@@ -99,13 +102,6 @@ public static final int SETTING_CODE = 77;
         toggle.syncState();
     }
 
-    private void initViewPager() {
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        ViewPager pager = findViewById(R.id.view_pager_id);
-        pager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
-    }
 
     private void searchViewGetText() {
         //получаем строку поиска из намерения ACTION_SEARCH
@@ -318,16 +314,28 @@ public static final int SETTING_CODE = 77;
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
+
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                initViewPager();
+                initFrag(new PagerFragment());
+
             }else {
                 initLand();
             }
 
         }
-
-
     }
+    private void initFrag(Fragment frag){
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        if(fragment == null){
+            fragment = frag;
+            fm.beginTransaction().add(R.id.fragment_container,fragment).commitAllowingStateLoss();
+        }else{
+            fragment = frag;
+            fm.beginTransaction().replace(R.id.fragment_container,fragment).commitAllowingStateLoss();
+        }
+    }
+
     private void initLand(){
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             FrameLayout fl = findViewById(R.id.recycler_frag);
@@ -350,52 +358,20 @@ public static final int SETTING_CODE = 77;
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.history_box:
-                Intent intent = EmptyActivity.newIntent(this,EmptyActivity.HISTORY_FRAG);
-                startActivity(intent);
+                initFrag(new HistoryFragment());
                 drawerLayout.closeDrawers();
                 return true;
             case R.id.info_box:
-                Intent intent2 = EmptyActivity.newIntent(this,EmptyActivity.INFO_FRAG);
-                startActivity(intent2);
+                initFrag(new InfoFragment());
                 drawerLayout.closeDrawers();
                 return true;
             case R.id.home:
+                initFrag(new PagerFragment());
                 drawerLayout.closeDrawers();
                 return true;
         }
         return false;
     }
 
-    private class SectionsPagerAdapter extends FragmentPagerAdapter {
-        public SectionsPagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-        }
 
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            switch (position){
-                case 0: return new TodayWeather();
-                case 1: return new TomorrowFragment();
-                case 2: return new TenDaysWeather();
-            }
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position){
-                case 0:return getResources().getText(R.string.today_button);
-                case 1:return getResources().getText(R.string.tomorrow_button);
-                case 2:return getResources().getText(R.string.week_button);
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-    }
 }
