@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:padding="2dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="5dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/city_name_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/item_date_time_current_text_view_id"
+            app:layout_constraintEnd_toEndOf="@+id/item_image_weather_image_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Saint Petersburg" />
+
+
+        <TextView
+            android:id="@+id/item_date_time_current_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="32dp"
+            tools:text="21 апреля, 20:03" />
+
+        <TextView
+            android:id="@+id/item_current_temp_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_date_time_current_text_view_id"
+            tools:text="+10 C" />
+
+
+        <ImageView
+            android:id="@+id/item_image_weather_image_id"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/item_current_temp_text_view_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_weather_description_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/item_current_temp_text_view_id"
+            app:layout_constraintEnd_toEndOf="@+id/city_name_history"
+            app:layout_constraintStart_toStartOf="@+id/city_name_history"
+            app:layout_constraintTop_toBottomOf="@+id/city_name_history"
+            tools:text="Переменная облачнотсь" />
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

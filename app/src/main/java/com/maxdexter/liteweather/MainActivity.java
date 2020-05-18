@@ -41,6 +41,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
+import com.maxdexter.liteweather.data.HistoryBox;
+import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
@@ -60,6 +62,7 @@ import java.util.Map;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    DrawerLayout drawerLayout;
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
 
@@ -90,7 +93,7 @@ public static final int SETTING_CODE = 77;
     }
 
     private void initDrawerLayout() {
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.nav_open_draw,R.string.nav_close_draw);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -279,6 +282,7 @@ public static final int SETTING_CODE = 77;
         JSONArray arr;
         JSONObject day;
         DailyWeather dailyWeather;
+        HistoryWeather historyWeather = null;
         ArrayList<DailyWeather> weathersList = new ArrayList<>();
         try{
             arr = json.getJSONArray("daily");
@@ -305,9 +309,12 @@ public static final int SETTING_CODE = 77;
                 dailyWeather = new DailyWeather(feeling,DT, sunrise, sunset, tempDay, tempMin, tempMax,
                         tempNight, tempEve, tempMorn, pressure, humidity, wind_speed, description, imageResourceId);
                 weathersList.add(dailyWeather);
+                historyWeather = new HistoryWeather(cityName,tempDay,DT,description,imageResourceId);
             }
             WeatherLab.get(this).setPlace(cityName);
             WeatherLab.get(this).setDailyWeathers(weathersList);
+           HistoryBox.get(this).addList(cityName,historyWeather);
+
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
@@ -345,10 +352,15 @@ public static final int SETTING_CODE = 77;
             case R.id.history_box:
                 Intent intent = EmptyActivity.newIntent(this,EmptyActivity.HISTORY_FRAG);
                 startActivity(intent);
+                drawerLayout.closeDrawers();
                 return true;
             case R.id.info_box:
                 Intent intent2 = EmptyActivity.newIntent(this,EmptyActivity.INFO_FRAG);
                 startActivity(intent2);
+                drawerLayout.closeDrawers();
+                return true;
+            case R.id.home:
+                drawerLayout.closeDrawers();
                 return true;
         }
         return false;

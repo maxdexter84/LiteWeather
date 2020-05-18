@@ -2,7 +2,7 @@
     <string name="app_name">LiteWeather</string>
 
 
-    <string name="search">search</string>
+    <string name="search">поиск</string>
     <string name="search_title">Поиск</string>
     <string name="search_hint">Выберите город</string>
 
@@ -17,7 +17,7 @@
     <string name="wind_speed">Скорость ветра</string>
     <string name="humidity">Влажность</string>
     <string name="pressure">Давление</string>
-    <string name="feeling_temp">"Feeling "</string>
+    <string name="feeling_temp">ощущается как </string>
 
 
     <string name="today_button">Сегодня</string>
@@ -31,4 +31,5 @@
     <string name="info_title">Информация</string>
     <string name="nav_open_draw">Открыть боковое меню</string>
     <string name="nav_close_draw">Закрыть боковое меню</string>
+    <string name="home">Погода</string>
 </resources>
