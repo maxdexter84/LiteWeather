@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Constraints;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -35,11 +37,17 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
+import com.maxdexter.liteweather.data.HistoryBox;
+import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
+import com.maxdexter.liteweather.fragments.HistoryFragment;
+import com.maxdexter.liteweather.fragments.InfoFragment;
+import com.maxdexter.liteweather.fragments.PagerFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
@@ -56,7 +64,9 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
 public static final int SETTING_CODE = 77;
 
 
@@ -72,19 +82,26 @@ public static final int SETTING_CODE = 77;
             constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
         }
         initToolbar();
+        initDrawerLayout();
+        initNavView();
         mAppCache = new AppCache(this);
         searchViewGetText();
          updateWeatherData(mAppCache.getSavedCity());
 
     }
 
-    private void initViewPager() {
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        ViewPager pager = findViewById(R.id.view_pager_id);
-        pager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
+    private void initNavView() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
+
+    private void initDrawerLayout() {
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.nav_open_draw,R.string.nav_close_draw);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
 
     private void searchViewGetText() {
         //получаем строку поиска из намерения ACTION_SEARCH
@@ -99,7 +116,7 @@ public static final int SETTING_CODE = 77;
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -141,7 +158,7 @@ public static final int SETTING_CODE = 77;
         EditText editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(24);
         editText.setHintTextColor(getResources().getColor(R.color.black));
-        searchView.setFocusable(false);
+        searchView.clearFocus();
 
     }
 
@@ -261,6 +278,7 @@ public static final int SETTING_CODE = 77;
         JSONArray arr;
         JSONObject day;
         DailyWeather dailyWeather;
+        HistoryWeather historyWeather = null;
         ArrayList<DailyWeather> weathersList = new ArrayList<>();
         try{
             arr = json.getJSONArray("daily");
@@ -287,22 +305,37 @@ public static final int SETTING_CODE = 77;
                 dailyWeather = new DailyWeather(feeling,DT, sunrise, sunset, tempDay, tempMin, tempMax,
                         tempNight, tempEve, tempMorn, pressure, humidity, wind_speed, description, imageResourceId);
                 weathersList.add(dailyWeather);
+                historyWeather = new HistoryWeather(cityName,tempDay,DT,description,imageResourceId);
             }
             WeatherLab.get(this).setPlace(cityName);
             WeatherLab.get(this).setDailyWeathers(weathersList);
+           HistoryBox.get(this).addList(cityName,historyWeather);
+
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
+
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                initViewPager();
+                initFrag(new PagerFragment());
+
             }else {
                 initLand();
             }
 
         }
-
-
     }
+    private void initFrag(Fragment frag){
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        if(fragment == null){
+            fragment = frag;
+            fm.beginTransaction().add(R.id.fragment_container,fragment).commitAllowingStateLoss();
+        }else{
+            fragment = frag;
+            fm.beginTransaction().replace(R.id.fragment_container,fragment).commitAllowingStateLoss();
+        }
+    }
+
     private void initLand(){
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             FrameLayout fl = findViewById(R.id.recycler_frag);
@@ -321,36 +354,24 @@ public static final int SETTING_CODE = 77;
        }
     }
 
-    private class SectionsPagerAdapter extends FragmentPagerAdapter {
-        public SectionsPagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.history_box:
+                initFrag(new HistoryFragment());
+                drawerLayout.closeDrawers();
+                return true;
+            case R.id.info_box:
+                initFrag(new InfoFragment());
+                drawerLayout.closeDrawers();
+                return true;
+            case R.id.home:
+                initFrag(new PagerFragment());
+                drawerLayout.closeDrawers();
+                return true;
         }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            switch (position){
-                case 0: return new TodayWeather();
-                case 1: return new TomorrowFragment();
-                case 2: return new TenDaysWeather();
-            }
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position){
-                case 0:return getResources().getText(R.string.today_button);
-                case 1:return getResources().getText(R.string.tomorrow_button);
-                case 2:return getResources().getText(R.string.week_button);
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
+        return false;
     }
+
+
 }
