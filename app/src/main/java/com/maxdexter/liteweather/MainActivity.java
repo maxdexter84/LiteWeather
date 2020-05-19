@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Constraints;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -22,22 +19,18 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
@@ -45,9 +38,6 @@ import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
-import com.maxdexter.liteweather.fragments.HistoryFragment;
-import com.maxdexter.liteweather.fragments.InfoFragment;
-import com.maxdexter.liteweather.fragments.PagerFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
@@ -65,7 +55,6 @@ import java.util.Map;
 
 
 public class MainActivity extends BaseActivity {
-    DrawerLayout drawerLayout;
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
 
@@ -299,7 +288,7 @@ public static final int SETTING_CODE = 77;
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                initFrag(new PagerFragment());
+                initViewPager();
 
             }else {
                 initLand();
@@ -307,17 +296,8 @@ public static final int SETTING_CODE = 77;
 
         }
     }
-    private void initFrag(Fragment frag){
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-        if(fragment == null){
-            fragment = frag;
-            fm.beginTransaction().add(R.id.fragment_container,fragment).commitAllowingStateLoss();
-        }else{
-            fragment = frag;
-            fm.beginTransaction().replace(R.id.fragment_container,fragment).commitAllowingStateLoss();
-        }
-    }
+
+
 
     private void initLand(){
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -337,6 +317,45 @@ public static final int SETTING_CODE = 77;
        }
     }
 
+    public class ViewPagerFragment extends FragmentPagerAdapter {
 
+
+        public ViewPagerFragment(@NonNull FragmentManager fm) {
+            super(fm);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0: return new TodayWeather();
+                case 1: return new TomorrowFragment();
+                case 2: return new TenDaysWeather();
+            }
+            return null;
+        }
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                case 0:return getResources().getText(R.string.today_button) ;
+                case 1:return getResources().getText(R.string.tomorrow_button);
+                case 2:return getResources().getText(R.string.week_button);
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+    }
+    private void initViewPager() {
+        ViewPagerFragment pagerAdapter = new ViewPagerFragment(getSupportFragmentManager());
+        ViewPager pager = findViewById(R.id.view_pager_id);
+        pager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = findViewById(R.id.tabs_fragment);
+        tabLayout.setupWithViewPager(pager);
+    }
 
 }
