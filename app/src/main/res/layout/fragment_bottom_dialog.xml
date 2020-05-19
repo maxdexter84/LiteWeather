@@ -17,29 +17,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/dark_theme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
 
     <TextView
         android:id="@+id/history_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:drawableStart="@drawable/history_icon"
         android:text="@string/history_tytle"
-        app:layout_constraintStart_toStartOf="@+id/switch_theme"
-        app:layout_constraintTop_toBottomOf="@+id/switch_theme" />
+        android:textSize="@dimen/textSize_Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
 
     <TextView
         android:id="@+id/info_box"
+        android:textSize="@dimen/textSize_Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -47,6 +38,17 @@
         android:text="@string/info_title"
         app:layout_constraintStart_toStartOf="@+id/history_box"
         app:layout_constraintTop_toBottomOf="@+id/history_box" />
+
+    <TextView
+        android:id="@+id/tools_box"
+        android:textSize="@dimen/textSize_Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/settings_icon"
+        android:text="@string/tools"
+        app:layout_constraintStart_toStartOf="@+id/info_box"
+        app:layout_constraintTop_toBottomOf="@+id/info_box" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

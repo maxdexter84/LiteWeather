@@ -26,11 +26,13 @@ import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
@@ -76,6 +78,14 @@ public static final int SETTING_CODE = 77;
         mAppCache = new AppCache(this);
         searchViewGetText();
         updateWeatherData(mAppCache.getSavedCity());
+        FloatingActionButton FAB = findViewById(R.id.floating_button_tools);
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomDialogFragment bottomDialogFragment = BottomDialogFragment.newInstance();
+                bottomDialogFragment.show(getSupportFragmentManager(),"dialog fragment");
+            }
+        });
     }
 
     private void searchViewGetText() {
@@ -110,12 +120,8 @@ public static final int SETTING_CODE = 77;
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.tools:
-                BottomDialogFragment bottomDialogFragment = BottomDialogFragment.newInstance();
-                bottomDialogFragment.setHasOptionsMenu(true);
-                bottomDialogFragment.show(getSupportFragmentManager(),"dialog fragment");
-
-//                Intent intent = new Intent(this, SettingActivity.class);
-//                startActivityForResult(intent,SETTING_CODE);
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivityForResult(intent,SETTING_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
