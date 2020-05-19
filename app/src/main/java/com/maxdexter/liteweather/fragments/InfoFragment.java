@@ -2,21 +2,23 @@ package com.maxdexter.liteweather.fragments;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.maxdexter.liteweather.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoFragment extends Fragment {
+public class InfoFragment extends BottomSheetDialogFragment {
 
-    public InfoFragment() {
-        // Required empty public constructor
+    public static InfoFragment newInstance(){
+        return new InfoFragment();
     }
 
 

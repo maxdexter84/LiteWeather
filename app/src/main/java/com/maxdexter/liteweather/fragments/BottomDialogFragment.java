@@ -1,6 +1,7 @@
 package com.maxdexter.liteweather.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,13 +16,13 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.maxdexter.liteweather.R;
+import com.maxdexter.liteweather.SettingActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BottomDialogFragment extends BottomSheetDialogFragment implements View.OnClickListener {
+public class BottomDialogFragment extends BottomSheetDialogFragment {
     public static final String TAG = "BottomDialogFragment";
-    private ItemClickListener mItemClickListener;
   public static BottomDialogFragment newInstance(){
        return new BottomDialogFragment();
     }
@@ -39,32 +40,30 @@ public class BottomDialogFragment extends BottomSheetDialogFragment implements V
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.history_box).setOnClickListener(this);
-        view.findViewById(R.id.info_box).setOnClickListener(this);
-    }
+        view.findViewById(R.id.history_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HistoryFragment historyFragment = HistoryFragment.newInstance();
+                historyFragment.show(getFragmentManager(),"history fragment");
+                dismiss();
+            }
+        });
+        view.findViewById(R.id.info_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoFragment infoFragment = InfoFragment.newInstance();
+                infoFragment.show(getFragmentManager(),"blank fragment");
+                dismiss();
+            }
+        });
+        view.findViewById(R.id.tools_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SettingActivity.class);
+                startActivity(intent);
+                dismiss();
+            }
+        });
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof ItemClickListener) {
-            mItemClickListener = (ItemClickListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement ItemClickListener");
-        }
-    }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mItemClickListener = null;
-    }
-    @Override public void onClick(View view) {
-        TextView tvSelected = (TextView) view;
-        mItemClickListener.onItemClick(tvSelected.getText().toString());
-        dismiss();
-    }
-    public interface ItemClickListener {
-        void onItemClick(String item);
     }
 }
