@@ -38,6 +38,8 @@ import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
+import com.maxdexter.liteweather.fragments.BlankFragment;
+import com.maxdexter.liteweather.fragments.BottomDialogFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
@@ -54,7 +56,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements BottomDialogFragment.ItemClickListener{
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
 
@@ -108,8 +110,12 @@ public static final int SETTING_CODE = 77;
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.tools:
-                Intent intent = new Intent(this, SettingActivity.class);
-                startActivityForResult(intent,SETTING_CODE);
+                BottomDialogFragment bottomDialogFragment = BottomDialogFragment.newInstance();
+                bottomDialogFragment.setHasOptionsMenu(true);
+                bottomDialogFragment.show(getSupportFragmentManager(),"dialog fragment");
+
+//                Intent intent = new Intent(this, SettingActivity.class);
+//                startActivityForResult(intent,SETTING_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -315,6 +321,13 @@ public static final int SETTING_CODE = 77;
 
             }
        }
+    }
+
+    @Override
+    public void onItemClick(String item) {
+        Toast.makeText(getApplication(),item,Toast.LENGTH_SHORT).show();
+        BlankFragment blankFragment = BlankFragment.newInstance();
+        blankFragment.show(getSupportFragmentManager(),"blank fragment");
     }
 
     public class ViewPagerFragment extends FragmentPagerAdapter {
