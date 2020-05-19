@@ -64,7 +64,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity {
     DrawerLayout drawerLayout;
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
@@ -82,26 +82,10 @@ public static final int SETTING_CODE = 77;
             constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
         }
         initToolbar();
-        initDrawerLayout();
-        initNavView();
         mAppCache = new AppCache(this);
         searchViewGetText();
-         updateWeatherData(mAppCache.getSavedCity());
-
+        updateWeatherData(mAppCache.getSavedCity());
     }
-
-    private void initNavView() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void initDrawerLayout() {
-        drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.nav_open_draw,R.string.nav_close_draw);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
 
     private void searchViewGetText() {
         //получаем строку поиска из намерения ACTION_SEARCH
@@ -314,7 +298,6 @@ public static final int SETTING_CODE = 77;
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
-
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
                 initFrag(new PagerFragment());
 
@@ -354,24 +337,6 @@ public static final int SETTING_CODE = 77;
        }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        switch (menuItem.getItemId()){
-            case R.id.history_box:
-                initFrag(new HistoryFragment());
-                drawerLayout.closeDrawers();
-                return true;
-            case R.id.info_box:
-                initFrag(new InfoFragment());
-                drawerLayout.closeDrawers();
-                return true;
-            case R.id.home:
-                initFrag(new PagerFragment());
-                drawerLayout.closeDrawers();
-                return true;
-        }
-        return false;
-    }
 
 
 }
