@@ -1,6 +1,12 @@
 package com.maxdexter.liteweather.data;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class HistoryWeather {
+    @PrimaryKey
     private String mCityName;
     private String mTempDay;
     private String mDT;
