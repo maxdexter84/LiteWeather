@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public interface WeatherDao {
     @Query("SELECT * FROM historyweather")
-    List<DailyWeather> getAll();
+    List<HistoryWeather> getAll();
     @Query(("SELECT * FROM historyweather WHERE mCityName = :city"))
     HistoryWeather getByCityName(String city);
 
