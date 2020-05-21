@@ -11,6 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 
@@ -34,6 +36,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.maxdexter.liteweather.adapter.HistoryAdapter;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.HistoryBox;
@@ -57,7 +60,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity  {
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
 
@@ -77,6 +80,10 @@ public static final int SETTING_CODE = 77;
         mAppCache = new AppCache(this);
         searchViewGetText();
         updateWeatherData(mAppCache.getSavedCity());
+        initFAB();
+    }
+
+    private void initFAB() {
         FloatingActionButton FAB = findViewById(R.id.floating_button_tools);
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,11 +296,19 @@ public static final int SETTING_CODE = 77;
                 dailyWeather = new DailyWeather(feeling,DT, sunrise, sunset, tempDay, tempMin, tempMax,
                         tempNight, tempEve, tempMorn, pressure, humidity, wind_speed, description, imageResourceId);
                 weathersList.add(dailyWeather);
-                historyWeather = new HistoryWeather(cityName,tempDay,DT,description,imageResourceId);
+                if(historyWeather == null)historyWeather = new HistoryWeather(cityName,tempDay,DT,description,imageResourceId);
+
             }
             WeatherLab.get(this).setPlace(cityName);
             WeatherLab.get(this).setDailyWeathers(weathersList);
-           HistoryBox.get(this).addList(cityName,historyWeather);
+
+            if(HistoryBox.get(this).getHistoryWeather(cityName) != null){
+                int id = HistoryBox.get(this).getHistoryWeather(cityName).getId();
+                assert historyWeather != null;
+                historyWeather.setId(id);
+                HistoryBox.get(this).updateHistoryWeather(historyWeather);
+            }else HistoryBox.get(this).addList(historyWeather);
+
 
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
@@ -327,6 +342,7 @@ public static final int SETTING_CODE = 77;
             }
        }
     }
+
 
 
 
@@ -371,4 +387,18 @@ public static final int SETTING_CODE = 77;
         tabLayout.setupWithViewPager(pager);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            LiveData<String> liveData = WeatherLab.get(this).getData();
+            liveData.observe(this, new Observer<String>() {
+                @Override
+                public void onChanged(@Nullable String value) {
+                    changeCity(value);
+                }
+            });
+        }
+        Toast.makeText(this, "" + hasFocus, Toast.LENGTH_SHORT).show();
+    }
 }

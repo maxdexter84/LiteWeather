@@ -26,6 +26,9 @@ public class HistoryBox {
     public List<HistoryWeather> getHistoryWeatherList() {
         return database.mWeatherDao().getAll();
     }
+    public HistoryWeather getHistoryWeather(String city) {
+        return database.mWeatherDao().getByCityName(city);
+    }
 
     private HistoryBox(Context context){
         database = Room.databaseBuilder(context, AppDatabase.class, "historyDatabase")

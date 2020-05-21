@@ -4,13 +4,23 @@ package com.maxdexter.liteweather.data;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.List;
 
 
 public class WeatherLab {
     private static WeatherLab sWeatherLab;
     private String mPlace;
+    private MutableLiveData<String> liveData = new MutableLiveData<>();
 
+   public LiveData<String> getData() {
+        return liveData;
+    }
+    public void setData(String city){
+        liveData.setValue(city);
+    }
     public void setPlace(String place) {
         mPlace = place;
     }

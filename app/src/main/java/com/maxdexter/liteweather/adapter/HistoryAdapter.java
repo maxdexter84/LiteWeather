@@ -6,29 +6,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxdexter.liteweather.R;
-import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.HistoryWeather;
-import com.maxdexter.liteweather.data.WeatherLab;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static android.provider.Settings.System.getString;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
 
+     OnItemClickListener mItemClickListener;
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mItemClickListener = onItemClickListener;
+    }
+    //Интерфейс для обработки нажатий
+    public interface OnItemClickListener{
+        void onItemClick(String city);
+    }
 
     private List<HistoryWeather> sWeatherList;
 
@@ -61,7 +62,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+     class ViewHolder extends RecyclerView.ViewHolder {
        TextView cityName;
         TextView itemDateTime;
         TextView itemCurrentTemp;
@@ -70,29 +71,34 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             cityName = itemView.findViewById(R.id.city_name_history);
             itemDateTime = itemView.findViewById(R.id.item_date_time_current_text_view_id);
             itemCurrentTemp = itemView.findViewById(R.id.item_current_temp_text_view_id);
             itemWeatherDescript = itemView.findViewById(R.id.item_weather_description_text_view_id);
             itemImageWeather = itemView.findViewById(R.id.item_image_weather_image_id);
 
+
         }
-        void bind(HistoryWeather weather){
+        void bind(final HistoryWeather weather){
             cityName.setText(weather.getCityName());
             itemDateTime.setText(weather.getDT());
             itemCurrentTemp.setText( weather.getTempDay() + " ℃");
             itemWeatherDescript.setText(weather.getDescription());
             itemImageWeather.setImageResource(weather.getImageResourceId());
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mItemClickListener != null){
+                        mItemClickListener.onItemClick(weather.getCityName());
+                    }
+                }
+            });
 
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.Q)
-        @Override
-        public void onClick(View v) {
 
-        }
     }
+
+
 
 }
