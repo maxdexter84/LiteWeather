@@ -98,7 +98,7 @@ public static final int SETTING_CODE = 77;
 
     private void initBottomSheet(){
         View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_bottom_dialog,null);
-        BottomSheetDialog bottomDialog = new BottomSheetDialog(MainActivity.this);
+        final BottomSheetDialog bottomDialog = new BottomSheetDialog(MainActivity.this,R.style.BottomSheetDialog);
         bottomDialog.setContentView(view);
         bottomDialog.show();
         view.findViewById(R.id.history_box).setOnClickListener(new View.OnClickListener() {
@@ -107,6 +107,8 @@ public static final int SETTING_CODE = 77;
                 HistoryFragment historyFragment = HistoryFragment.newInstance();
                 assert getFragmentManager() != null;
                 historyFragment.show(getSupportFragmentManager(),"history fragment");
+                bottomDialog.setDismissWithAnimation(true);
+                bottomDialog.cancel();
             }
         });
         view.findViewById(R.id.info_box).setOnClickListener(new View.OnClickListener() {
@@ -115,6 +117,14 @@ public static final int SETTING_CODE = 77;
                 InfoFragment infoFragment = InfoFragment.newInstance();
                 assert getFragmentManager() != null;
                 infoFragment.show(getSupportFragmentManager(),"blank fragment");
+                bottomDialog.cancel();
+            }
+        });
+        view.findViewById(R.id.settings_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+                startActivityForResult(intent,SETTING_CODE);
             }
         });
     }
@@ -402,12 +412,7 @@ public static final int SETTING_CODE = 77;
                 }
             });
         }
-        Toast.makeText(this, "" + hasFocus, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
-    }
+
 }

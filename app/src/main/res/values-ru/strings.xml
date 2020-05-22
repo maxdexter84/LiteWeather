@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="remove">remove</string>
+    <string name="remove">удалить</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="email">Электронная почта</string>
+    <string name="contact_information">Контактная информация</string>
 </resources>

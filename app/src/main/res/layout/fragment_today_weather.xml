@@ -84,11 +84,11 @@
             app:behavior_peekHeight="60dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
           >
-<androidx.appcompat.widget.AppCompatImageView
-    android:src="@drawable/outline_drag_handle_24"
-    android:foregroundGravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:src="@drawable/outline_drag_handle_24"
+            android:foregroundGravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/wind_title_id"

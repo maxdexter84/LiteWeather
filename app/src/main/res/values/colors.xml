@@ -18,6 +18,6 @@
     <color name="myColorPrimaryDarkTransparent">#4C219BC3</color>
     <color name="myColorPrimaryTransparent">#B2D3E1</color>
     <color name="myColorAccentTransparent">#F2CFDA</color>
-    <color name="myColor">#2EB2D3E1</color>
+    <color name="myColor">#FFFFFF</color>
     <color name="myColorTransparent">#97FFFFFF</color>
 </resources>
