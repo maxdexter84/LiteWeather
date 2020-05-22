@@ -125,6 +125,7 @@ public static final int SETTING_CODE = 77;
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,SettingActivity.class);
                 startActivityForResult(intent,SETTING_CODE);
+                bottomDialog.cancel();
             }
         });
     }

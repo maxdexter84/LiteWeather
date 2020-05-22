@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
-    android:background="@color/myColor"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp"
     android:layout_width="match_parent"

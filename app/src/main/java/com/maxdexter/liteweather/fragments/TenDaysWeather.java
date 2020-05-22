@@ -37,7 +37,7 @@ public class TenDaysWeather extends Fragment {
 
         ArrayList<DailyWeather> value = (ArrayList<DailyWeather>) WeatherLab.get(getContext()).getDailyWeathers();
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_ten_days_fragment_id);
-       dailyWeatherAdapter = new DailyWeatherAdapter(value);
+        dailyWeatherAdapter = new DailyWeatherAdapter(value);
         recyclerView.setAdapter(dailyWeatherAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
