@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
 
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
@@ -20,36 +21,26 @@
 
     <TextView
         android:id="@+id/history_box"
-        android:layout_width="wrap_content"
+        android:padding="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/history_icon"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/history_dark_icon"
         android:text="@string/history_tytle"
         android:textSize="@dimen/textSize_Large"
-        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton" />
 
     <TextView
         android:id="@+id/info_box"
-        android:textSize="@dimen/textSize_Large"
-        android:layout_width="wrap_content"
+        android:padding="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/info_icon"
+        android:drawableStart="@drawable/info_dark_icon"
         android:text="@string/info_title"
+        android:textSize="@dimen/textSize_Large"
         app:layout_constraintStart_toStartOf="@+id/history_box"
         app:layout_constraintTop_toBottomOf="@+id/history_box" />
-
-    <TextView
-        android:id="@+id/tools_box"
-        android:textSize="@dimen/textSize_Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/settings_icon"
-        android:text="@string/tools"
-        app:layout_constraintStart_toStartOf="@+id/info_box"
-        app:layout_constraintTop_toBottomOf="@+id/info_box" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,30 +20,30 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.maxdexter.liteweather.adapter.HistoryAdapter;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.DailyWeather;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
-import com.maxdexter.liteweather.fragments.BottomDialogFragment;
+import com.maxdexter.liteweather.fragments.HistoryFragment;
+import com.maxdexter.liteweather.fragments.InfoFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
@@ -63,7 +63,7 @@ import java.util.Map;
 public class MainActivity extends BaseActivity  {
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
-
+   private LiveData<String> liveData;
 
     private final Handler handler = new Handler();
     AppCache mAppCache;
@@ -76,8 +76,11 @@ public static final int SETTING_CODE = 77;
             ConstraintLayout constraints = findViewById(R.id.main_activity);
             constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
         }
+
         initToolbar();
         mAppCache = new AppCache(this);
+        liveData = WeatherLab.get(this).getData();
+        WeatherLab.get(this).setData(mAppCache.getSavedCity());
         searchViewGetText();
         updateWeatherData(mAppCache.getSavedCity());
         initFAB();
@@ -88,8 +91,30 @@ public static final int SETTING_CODE = 77;
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomDialogFragment bottomDialogFragment = BottomDialogFragment.newInstance();
-                bottomDialogFragment.show(getSupportFragmentManager(),"dialog fragment");
+                initBottomSheet();
+            }
+        });
+    }
+
+    private void initBottomSheet(){
+        View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_bottom_dialog,null);
+        BottomSheetDialog bottomDialog = new BottomSheetDialog(MainActivity.this);
+        bottomDialog.setContentView(view);
+        bottomDialog.show();
+        view.findViewById(R.id.history_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HistoryFragment historyFragment = HistoryFragment.newInstance();
+                assert getFragmentManager() != null;
+                historyFragment.show(getSupportFragmentManager(),"history fragment");
+            }
+        });
+        view.findViewById(R.id.info_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoFragment infoFragment = InfoFragment.newInstance();
+                assert getFragmentManager() != null;
+                infoFragment.show(getSupportFragmentManager(),"blank fragment");
             }
         });
     }
@@ -100,6 +125,7 @@ public static final int SETTING_CODE = 77;
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             changeCity(query);
+            WeatherLab.get(this).setData(query);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
@@ -142,10 +168,16 @@ public static final int SETTING_CODE = 77;
 
     private void initSearchView(Menu menu) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.onActionViewExpanded();
-        searchView.setQueryHint(mAppCache.getSavedCity().toUpperCase());
+        liveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                searchView.setQueryHint(s.toUpperCase());
+            }
+        });
+
         EditText editText = searchView.findViewById(R.id.search_src_text);
         editText.setTextSize(24);
         editText.setHintTextColor(getResources().getColor(R.color.black));
@@ -313,37 +345,9 @@ public static final int SETTING_CODE = 77;
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }finally {
-            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                initViewPager();
-
-            }else {
-                initLand();
-            }
-
+            initViewPager();
         }
     }
-
-
-
-    private void initLand(){
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            FrameLayout fl = findViewById(R.id.recycler_frag);
-            if (fl != null){
-                FragmentManager fm =getSupportFragmentManager();
-                Fragment fragment = fm.findFragmentById(R.id.recycler_frag);
-                Fragment fragment1 = fm.findFragmentById(R.id.details_frag);
-                if(fragment == null){
-                    fragment = new TenDaysWeather();
-                    fragment1 = new TodayWeather();
-                    fm.beginTransaction().add(R.id.recycler_frag,fragment).commit();
-                    fm.beginTransaction().add(R.id.details_frag,fragment1).commit();
-                }
-
-            }
-       }
-    }
-
-
 
 
     public class ViewPagerFragment extends FragmentPagerAdapter {
@@ -391,7 +395,6 @@ public static final int SETTING_CODE = 77;
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus){
-            LiveData<String> liveData = WeatherLab.get(this).getData();
             liveData.observe(this, new Observer<String>() {
                 @Override
                 public void onChanged(@Nullable String value) {
@@ -400,5 +403,11 @@ public static final int SETTING_CODE = 77;
             });
         }
         Toast.makeText(this, "" + hasFocus, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
     }
 }

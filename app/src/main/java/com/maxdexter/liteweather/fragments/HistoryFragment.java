@@ -3,6 +3,7 @@ package com.maxdexter.liteweather.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -11,7 +12,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,12 +42,13 @@ import java.util.Set;
  */
 public class HistoryFragment extends BottomSheetDialogFragment {
     private List<HistoryWeather> mWeatherList;
-    AppCache mAppCache;
+    private static final int ID_DELETE = 10;
 
 
     public static HistoryFragment newInstance(){
        return new HistoryFragment();
    }
+
 
 
     @Override
@@ -51,23 +57,29 @@ public class HistoryFragment extends BottomSheetDialogFragment {
                              @Nullable Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_history,container,false);
         initList();
+        initRecyclerAdapter(view);
+
+
+        return view;
+    }
+
+    private void initRecyclerAdapter(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.history_recycler);
         HistoryAdapter historyAdapter = new HistoryAdapter(mWeatherList);
         historyAdapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String city) {
+            public void onItemClick(View v,String city) {
                 WeatherLab.get(getContext()).setData(city);
                 dismiss();
             }
         });
         recyclerView.setAdapter(historyAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-        return view;
     }
+
     private void initList() {
        mWeatherList = HistoryBox.get(getActivity()).getHistoryWeatherList();
-
     }
+
+
 }

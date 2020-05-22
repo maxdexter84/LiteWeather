@@ -28,7 +28,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
     //Интерфейс для обработки нажатий
     public interface OnItemClickListener{
-        void onItemClick(String city);
+        void onItemClick(View view,String city);
     }
 
     private List<HistoryWeather> sWeatherList;
@@ -89,7 +89,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     if(mItemClickListener != null){
-                        mItemClickListener.onItemClick(weather.getCityName());
+                        mItemClickListener.onItemClick(v,weather.getCityName());
                     }
                 }
             });
@@ -98,7 +98,5 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
 
     }
-
-
 
 }
