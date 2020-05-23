@@ -37,6 +37,8 @@
     <string name="_880080080000" translatable="false">880080080000</string>
     <string name="contact_information">Contact information</string>
     <string name="geekapp" translatable="false">GeekApp</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
 
 
 </resources>

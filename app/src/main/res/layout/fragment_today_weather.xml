@@ -72,75 +72,7 @@
             tools:text="Переменная облачнотсь" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/weather_details_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical"
-            android:background="@color/myColorTransparent"
-            android:padding="8dp"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="60dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-          >
-        <androidx.appcompat.widget.AppCompatImageView
-            android:src="@drawable/outline_drag_handle_24"
-            android:foregroundGravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/wind_title_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/wind_speed"
-                    style="@style/TextStyle" />
-
-
-                <TextView
-                    android:id="@+id/humidity_title_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/humidity"
-                    style="@style/TextStyle"  />
-
-                <TextView
-                    android:id="@+id/pressure_title_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/pressure"
-                    style="@style/TextStyle"  />
-
-                <TextView
-                    android:id="@+id/title_min_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/min_temp"
-                    style="@style/TextStyle"  />
-
-                <TextView
-                    android:id="@+id/title_max_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/max_temp"
-                    style="@style/TextStyle"  />
-
-                <TextView
-                    android:id="@+id/feeling_title_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/feeling_temp"
-                    style="@style/TextStyle"  />
-
-
-        </LinearLayout>
-
+    <include
+        layout="@layout/bottom_sheet_detail"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

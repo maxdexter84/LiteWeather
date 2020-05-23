@@ -56,5 +56,7 @@
         android:src="@drawable/info_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+    <include
+        layout="@layout/fragment_bottom_dialog"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
