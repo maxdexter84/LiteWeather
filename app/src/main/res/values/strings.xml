@@ -25,12 +25,18 @@
     <string name="tools">tools</string>
     <string name="dark_theme">Dark theme</string>
     <string name="setting_title">Setting</string>
-    <string name="history_tytle">History</string>
-    <string name="info_title">Info</string>
+    <string name="history_tytle">search history</string>
+    <string name="info_title">contact information</string>
     <string name="nav_open_draw">Open navigation drawer</string>
     <string name="nav_close_draw">Close navigation drawer</string>
     <string name="home">Home</string>
+    <string name="remove">remove</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email">Email</string>
+    <string name="ieeueu_kds_ru" translatable="false">ieeueu@kds.ru</string>
+    <string name="_880080080000" translatable="false">880080080000</string>
+    <string name="contact_information">Contact information</string>
+    <string name="geekapp" translatable="false">GeekApp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

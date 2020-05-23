@@ -24,16 +24,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(isDarkTheme()){
-            setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.MyThemeTransparent);
 
         }
-
-
-
     }
     //Чтенеие настроек
     protected boolean isDarkTheme(){

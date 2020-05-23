@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ImageView
+        android:src="@drawable/outline_drag_handle_black_24"
+        android:id="@+id/imageButton"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/history_box"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/history_dark_icon"
+        android:text="@string/history_tytle"
+        android:textSize="@dimen/textSize_Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+    <TextView
+        android:id="@+id/info_box"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/info_dark_icon"
+        android:text="@string/info_title"
+        android:textSize="@dimen/textSize_Large"
+        app:layout_constraintStart_toStartOf="@+id/history_box"
+        app:layout_constraintTop_toBottomOf="@+id/history_box" />
+    <TextView
+        android:id="@+id/settings_box"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/settings_dark_icon"
+        android:text="@string/setting_title"
+        android:textSize="@dimen/textSize_Large"
+        app:layout_constraintStart_toStartOf="@+id/history_box"
+        app:layout_constraintTop_toBottomOf="@+id/history_box" />
+</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,11 +1,37 @@
 package com.maxdexter.liteweather.data;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class HistoryWeather {
+    public int getId() {
+        return id;
+    }
+
+    public HistoryWeather(String cityName, String tempDay, String DT, String description, int imageResourceId) {
+        mCityName = cityName;
+        mTempDay = tempDay;
+        mDT = DT;
+        mDescription = description;
+        mImageResourceId = imageResourceId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String mCityName;
     private String mTempDay;
     private String mDT;
     private String mDescription;
     private int mImageResourceId;
+
+    public HistoryWeather() {
+    }
 
     public String getCityName() {
         return mCityName;
@@ -47,11 +73,5 @@ public class HistoryWeather {
         mImageResourceId = imageResourceId;
     }
 
-    public HistoryWeather(String cityName, String tempDay, String DT, String description, int imageResourceId) {
-        mCityName = cityName;
-        mTempDay = tempDay;
-        mDT = DT;
-        mDescription = description;
-        mImageResourceId = imageResourceId;
-    }
+
 }
