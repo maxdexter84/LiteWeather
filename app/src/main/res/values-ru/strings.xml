@@ -4,6 +4,6 @@
     <string name="phone_number">Номер телефона</string>
     <string name="email">Электронная почта</string>
     <string name="contact_information">Контактная информация</string>
-    <string name="sunrise">Sunrise</string>
-    <string name="sunset">Sunset</string>
+    <string name="sunrise">Рассвет</string>
+    <string name="sunset">Закат</string>
 </resources>

@@ -6,7 +6,7 @@
     <string name="search_hint">Select city</string>
 
     <string name="feeling_by">Feeling by как</string>
-    <string name="place_name">Введите название города</string>
+    <string name="place_name">City name</string>
 
 
     <string name="min_temp"> Min </string>
