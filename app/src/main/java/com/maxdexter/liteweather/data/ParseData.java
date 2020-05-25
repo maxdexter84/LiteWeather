@@ -71,8 +71,6 @@ import java.util.Map;
                 historyWeather.setId(id);
                 HistoryBox.get(this).updateHistoryWeather(historyWeather);
             }else HistoryBox.get(this).addList(historyWeather);
-
-
         }catch (Exception e){
             Log.d("Log", "One or more fields not found in the JSON data");
         }

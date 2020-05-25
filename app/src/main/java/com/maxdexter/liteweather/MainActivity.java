@@ -29,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
+import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.ParseData;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.data.WeatherLoader;
@@ -37,18 +38,16 @@ import com.maxdexter.liteweather.fragments.InfoFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.util.Locale;
+
 
 
 public class MainActivity extends BaseActivity  {
     Toolbar toolbar;
 public static final int SETTING_CODE = 77;
    private LiveData<String> liveData;
-    ParseData parseData = new ParseData();
     private final Handler handler = new Handler();
     AppCache mAppCache;
+    WeatherLoader mWeatherLoader = new WeatherLoader();
 
 
     @Override
@@ -183,68 +182,27 @@ public static final int SETTING_CODE = 77;
     public void changeCity(String city) {
         updateWeatherData(mAppCache.getSavedCity());
         mAppCache.saveCity(city);
-
     }
+
     //Обновление/загрузка погодных данных
     private void updateWeatherData(final String city) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final JSONObject json = WeatherLoader.getData(city);
-                // Вызов методов напрямую может вызвать runtime error
-                if (json == null) {
-                    handler.post(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "Место не найдено",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    getCoordinates(json);
-                }
+        try {
+            mWeatherLoader.getData(city);
+            int count=0;
+            while (HistoryBox.get(this).getHistoryWeatherList().size()==0){
+                count++;
             }
-        }).start();
+            initViewPager();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
-    //Получение координат по названию города
-    @SuppressLint("DefaultLocale")
-    private void getCoordinates(JSONObject json) {
-        final String cityName;
-        try{
-            JSONObject coord = json.getJSONObject("coord");
-            final double lat = coord.getDouble("lat");
-            final double lon = coord.getDouble("lon");
-            cityName = json.getString("name").toUpperCase(Locale.getDefault());
-            updateDailyWeatherData(lat,lon,cityName);
-        }catch (Exception e){
-            Log.d("Log", "One or more fields not found in the JSON data");
-        }
-    }
-    private void updateDailyWeatherData(final double lat, final double lon, final String cityName) {
-                final JSONObject j = WeatherLoader.getDataSevenDays(lat,lon);
-                // Вызов методов напрямую может вызвать runtime error
-                if (j == null) {
-                    handler.post(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "Место не найдено",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    try {
-                        parseData.addWeather(j,cityName);
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                    }finally {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                initViewPager();
-                            }
-                        });
-                    }
-                }
-            }
+
+
+
+
 
 
 
@@ -278,7 +236,7 @@ public static final int SETTING_CODE = 77;
             return 3;
         }
     }
-    public void initViewPager() {
+    public  void initViewPager() {
         ViewPagerFragment pagerAdapter = new ViewPagerFragment(getSupportFragmentManager());
         ViewPager pager = findViewById(R.id.view_pager_id);
         pager.setAdapter(pagerAdapter);
