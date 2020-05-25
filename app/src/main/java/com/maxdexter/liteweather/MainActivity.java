@@ -188,11 +188,12 @@ public static final int SETTING_CODE = 77;
     private void updateWeatherData(final String city) {
         try {
             mWeatherLoader.getData(city);
-            int count=0;
-            while (HistoryBox.get(this).getHistoryWeatherList().size()==0){
-                count++;
-            }
+            int count = 0;
+       while (WeatherLab.get(this).getDailyWeathers().size() == 0){
+          count++;
+       }
             initViewPager();
+
         }catch (Exception e){
             e.printStackTrace();
         }
