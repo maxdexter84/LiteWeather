@@ -2,6 +2,7 @@ package com.maxdexter.liteweather.network;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.pojo.Result;
 import com.maxdexter.liteweather.pojo.WeatherBox;
 
@@ -11,20 +12,19 @@ import retrofit2.Response;
 
 public class ResponsResult implements Callback<Result> {
     private static MutableLiveData<Boolean> mLiveData = new MutableLiveData<>();
-    private boolean downloadOver = false;
+
     @Override
     public void onResponse(Call<Result> call, Response<Result> response) {
-        if(response.code()== 200){
+        if(response.code() == 200){
             Result result = response.body();
             WeatherBox.getInstance().setResult(result);
-            downloadOver = true;
-            mLiveData.setValue(downloadOver);
+            mLiveData.setValue(true);
         }
     }
 
     @Override
     public void onFailure(Call<Result> call, Throwable t) {
-
+        t.printStackTrace();
     }
 
     public static MutableLiveData<Boolean> getLiveData() {

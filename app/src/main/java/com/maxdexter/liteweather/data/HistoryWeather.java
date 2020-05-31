@@ -10,11 +10,10 @@ public class HistoryWeather {
         return id;
     }
 
-    public HistoryWeather(String cityName, String tempDay, String DT, String description, int imageResourceId) {
+    public HistoryWeather(String cityName, String tempDay, String DT,int imageResourceId) {
         mCityName = cityName;
         mTempDay = tempDay;
         mDT = DT;
-        mDescription = description;
         mImageResourceId = imageResourceId;
     }
 
@@ -27,7 +26,7 @@ public class HistoryWeather {
     private String mCityName;
     private String mTempDay;
     private String mDT;
-    private String mDescription;
+
     private int mImageResourceId;
 
     public HistoryWeather() {
@@ -55,14 +54,6 @@ public class HistoryWeather {
 
     public void setDT(String DT) {
         mDT = DT;
-    }
-
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public void setDescription(String description) {
-        mDescription = description;
     }
 
     public int getImageResourceId() {

@@ -9,10 +9,10 @@ public class Result {
 
     @SerializedName("lat")
     @Expose
-    private int lat;
+    private double lat;
     @SerializedName("lon")
     @Expose
-    private int lon;
+    private double lon;
     @SerializedName("timezone")
     @Expose
     private String timezone;
@@ -29,7 +29,7 @@ public class Result {
     @Expose
     private List<Daily> daily = null;
 
-    public int getLat() {
+    public double getLat() {
         return lat;
     }
 
@@ -37,7 +37,7 @@ public class Result {
         this.lat = lat;
     }
 
-    public int getLon() {
+    public double getLon() {
         return lon;
     }
 

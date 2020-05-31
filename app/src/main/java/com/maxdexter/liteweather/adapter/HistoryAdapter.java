@@ -43,7 +43,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Подключаем представление карточки в список
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_card_item,parent,false);
-
         return new ViewHolder(view);
     }
 
@@ -52,8 +51,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         HistoryWeather history = sWeatherList.get(position);
         holder.bind(history);
         View view = holder.itemView;
-
-
     }
 
     @Override
@@ -64,11 +61,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
 
      class ViewHolder extends RecyclerView.ViewHolder {
-        HelperMethods mHelperMethods = new HelperMethods();
        TextView cityName;
         TextView itemDateTime;
         TextView itemCurrentTemp;
-        TextView itemWeatherDescript;
         ImageView itemImageWeather;
 
         ViewHolder(@NonNull View itemView) {
@@ -76,18 +71,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             cityName = itemView.findViewById(R.id.city_name_history);
             itemDateTime = itemView.findViewById(R.id.item_date_time_current_text_view_id);
             itemCurrentTemp = itemView.findViewById(R.id.item_current_temp_text_view_id);
-            itemWeatherDescript = itemView.findViewById(R.id.item_weather_description_text_view_id);
             itemImageWeather = itemView.findViewById(R.id.item_image_weather_image_id);
-
-
         }
         void bind(final HistoryWeather weather){
-            int imgRes = mHelperMethods.getWeatherIcon(weather.getDescription());
+            int imgRes = weather.getImageResourceId();
             String date = weather.getDT();
             cityName.setText(weather.getCityName());
             itemDateTime.setText(date);
             itemCurrentTemp.setText( weather.getTempDay() + " ℃");
-            itemWeatherDescript.setText(weather.getDescription());
             itemImageWeather.setImageResource(imgRes);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

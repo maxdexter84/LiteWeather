@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_image_weather_image_id"
             app:layout_constraintStart_toEndOf="@+id/item_date_time_current_text_view_id"
             app:layout_constraintTop_toTopOf="parent"
@@ -56,17 +57,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/item_weather_description_text_view_id"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/item_current_temp_text_view_id"
-            app:layout_constraintEnd_toEndOf="@+id/city_name_history"
-            app:layout_constraintStart_toStartOf="@+id/city_name_history"
-            app:layout_constraintTop_toBottomOf="@+id/city_name_history"
-            tools:text="Переменная облачнотсь" />
+
 
 
 

@@ -26,6 +26,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
+import com.maxdexter.liteweather.data.HistoryBox;
+import com.maxdexter.liteweather.data.HistoryWeather;
 import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.fragments.HistoryFragment;
 import com.maxdexter.liteweather.fragments.InfoFragment;
@@ -34,6 +36,10 @@ import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
 import com.maxdexter.liteweather.network.NetworkService;
 import com.maxdexter.liteweather.network.ResponsResult;
+import com.maxdexter.liteweather.pojo.Daily;
+import com.maxdexter.liteweather.pojo.HelperMethods;
+import com.maxdexter.liteweather.pojo.WeatherBox;
+import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 
 public class MainActivity extends BaseActivity{
@@ -56,14 +62,28 @@ public class MainActivity extends BaseActivity{
             ConstraintLayout constraints = findViewById(R.id.main_activity);
             constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
         }
-
         initToolbar();
         mAppCache = new AppCache(this);
         liveData = WeatherLab.get(this).getData();
-        WeatherLab.get(this).setData(mAppCache.getSavedCity());
+       // WeatherLab.get(this).setData(mAppCache.getSavedCity());
         searchViewGetText();
         updateWeatherData(mAppCache.getSavedCity());
         initFAB();
+        liveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String value) {
+                changeCity(value);
+            }
+        });
+
+        WeatherBox.getInstance().setListener(new WeatherBox.listener() {
+            @Override
+            public void getCoordLatLon(double lat, double lon) {
+                String latS = "" + lat;
+                String lonS = "" + lon;
+                NetworkService.getInstance().loadData(latS,lonS,"073f40e104f2129961514beb51a721d2","metric");
+            }
+        });
 
 
     }
@@ -118,7 +138,7 @@ public class MainActivity extends BaseActivity{
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             changeCity(query);
-            WeatherLab.get(this).setData(query);
+            //WeatherLab.get(this).setData(query);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
@@ -180,9 +200,8 @@ public class MainActivity extends BaseActivity{
 
     //Обновляем вид, сохраняем выбранный город
     public void changeCity(String city) {
+        updateWeatherData(city);
         mAppCache.saveCity(city);
-        updateWeatherData(mAppCache.getSavedCity());
-
     }
 
     //Обновление/загрузка погодных данных
@@ -199,12 +218,25 @@ public class MainActivity extends BaseActivity{
                 boolean load = aBoolean;
                 if(aBoolean){
                     initViewPager();
+                    HelperMethods helperMethods = new HelperMethods();
+                  CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
+                    HistoryWeather historyWeather = new HistoryWeather(coordRes.getName(),
+                            (int)coordRes.getMain().getTemp()+"",
+                            helperMethods.initDate(coordRes.getDt()),
+                            helperMethods.getWeatherIcon(coordRes.getWeather().get(0).getDescription()));
+                    if(HistoryBox.get(getApplicationContext()).getHistoryWeather(coordRes.getName()) != null){
+                        int id = HistoryBox.get(getApplicationContext()).getHistoryWeather(coordRes.getName()).getId();
+                        assert historyWeather != null;
+                        historyWeather.setId(id);
+                        HistoryBox.get(getApplicationContext()).updateHistoryWeather(historyWeather);
+                    }else HistoryBox.get(getApplicationContext()).addList(historyWeather);
                 }
 
             }
         });
 
     }
+
 
 
     public class ViewPagerFragment extends FragmentPagerAdapter {
@@ -245,16 +277,17 @@ public class MainActivity extends BaseActivity{
         tabLayout.setupWithViewPager(pager);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
-            liveData.observe(this, new Observer<String>() {
-                @Override
-                public void onChanged(@Nullable String value) {
-                    changeCity(value);
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if(hasFocus){
+//            liveData.observe(this, new Observer<String>() {
+//                @Override
+//                public void onChanged(@Nullable String value) {
+//                    changeCity(value);
+//                }
+//            });
+//        }
+//    }
+
 }

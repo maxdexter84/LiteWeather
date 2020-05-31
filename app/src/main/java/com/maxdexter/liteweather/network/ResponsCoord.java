@@ -14,9 +14,7 @@ public class ResponsCoord implements Callback<CoordRes> {
     @Override
     public void onResponse(Call<CoordRes> call, Response<CoordRes> response) {
             WeatherBox.getInstance().setCoordRes(response.body());
-            int lat = (int)response.body().getCoord().getLat();
-            int lon = (int)response.body().getCoord().getLon();
-        NetworkService.getInstance().loadData(lat+"",lon+"","073f40e104f2129961514beb51a721d2","metric");
+
     }
 
     @Override

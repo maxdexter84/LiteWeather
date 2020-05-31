@@ -68,7 +68,6 @@ public class TomorrowFragment extends Fragment {
     private void setContent(int position){
         int feel = R.string.feeling_by;
         Daily weather = WeatherBox.getInstance().getResult().getDaily().get(1);
-
         HelperMethods mHelperMethods = new HelperMethods();
         String date = mHelperMethods.initDate(weather.getDt());
         String temp = (int)weather.getTemp().getDay() + " ℃";
