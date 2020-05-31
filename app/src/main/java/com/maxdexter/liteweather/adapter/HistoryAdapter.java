@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.data.HistoryWeather;
+import com.maxdexter.liteweather.pojo.HelperMethods;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
 
      class ViewHolder extends RecyclerView.ViewHolder {
+        HelperMethods mHelperMethods = new HelperMethods();
        TextView cityName;
         TextView itemDateTime;
         TextView itemCurrentTemp;
@@ -80,11 +82,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         }
         void bind(final HistoryWeather weather){
+            int imgRes = mHelperMethods.getWeatherIcon(weather.getDescription());
+            String date = weather.getDT();
             cityName.setText(weather.getCityName());
-            itemDateTime.setText(weather.getDT());
+            itemDateTime.setText(date);
             itemCurrentTemp.setText( weather.getTempDay() + " ℃");
             itemWeatherDescript.setText(weather.getDescription());
-            itemImageWeather.setImageResource(weather.getImageResourceId());
+            itemImageWeather.setImageResource(imgRes);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

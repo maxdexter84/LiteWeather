@@ -4,7 +4,7 @@ package com.maxdexter.liteweather.pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Weather {
+public class Weather_ {
 
     @SerializedName("id")
     @Expose

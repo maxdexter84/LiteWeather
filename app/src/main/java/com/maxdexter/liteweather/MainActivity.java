@@ -11,43 +11,41 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
-import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
-import com.maxdexter.liteweather.data.HistoryBox;
-import com.maxdexter.liteweather.data.ParseData;
 import com.maxdexter.liteweather.data.WeatherLab;
-import com.maxdexter.liteweather.data.WeatherLoader;
 import com.maxdexter.liteweather.fragments.HistoryFragment;
 import com.maxdexter.liteweather.fragments.InfoFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
 import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
+import com.maxdexter.liteweather.network.NetworkService;
+import com.maxdexter.liteweather.network.ResponsResult;
 
 
-
-public class MainActivity extends BaseActivity  {
+public class MainActivity extends BaseActivity{
+    private static final String API_GOOGLE = "AIzaSyBv6wGYzOLab_NkyQsVvvlWoDBCYyBTVvo";
+    private static final String TAG = "tag";
     Toolbar toolbar;
-public static final int SETTING_CODE = 77;
-   private LiveData<String> liveData;
+    public static final int SETTING_CODE = 77;
+    private LiveData<String> liveData;
     private final Handler handler = new Handler();
     AppCache mAppCache;
-    WeatherLoader mWeatherLoader = new WeatherLoader();
+   // WeatherLoader mWeatherLoader = new WeatherLoader();
+
 
 
     @Override
@@ -58,6 +56,7 @@ public static final int SETTING_CODE = 77;
             ConstraintLayout constraints = findViewById(R.id.main_activity);
             constraints.setBackground(getResources().getDrawable(R.drawable.oblaka));
         }
+
         initToolbar();
         mAppCache = new AppCache(this);
         liveData = WeatherLab.get(this).getData();
@@ -65,6 +64,7 @@ public static final int SETTING_CODE = 77;
         searchViewGetText();
         updateWeatherData(mAppCache.getSavedCity());
         initFAB();
+
 
     }
 
@@ -180,31 +180,31 @@ public static final int SETTING_CODE = 77;
 
     //Обновляем вид, сохраняем выбранный город
     public void changeCity(String city) {
-        updateWeatherData(mAppCache.getSavedCity());
         mAppCache.saveCity(city);
+        updateWeatherData(mAppCache.getSavedCity());
+
     }
 
     //Обновление/загрузка погодных данных
     private void updateWeatherData(final String city) {
-        try {
-            mWeatherLoader.getData(city);
-            int count = 0;
-       while (WeatherLab.get(this).getDailyWeathers().size() == 0){
-          count++;
-       }
-            initViewPager();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+        NetworkService.getInstance().loadCoord(city,"073f40e104f2129961514beb51a721d2","metric");
+        getLatLon();
     }
 
 
+    public void getLatLon(){
+        ResponsResult.getLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                boolean load = aBoolean;
+                if(aBoolean){
+                    initViewPager();
+                }
 
+            }
+        });
 
-
-
+    }
 
 
     public class ViewPagerFragment extends FragmentPagerAdapter {
@@ -257,5 +257,4 @@ public static final int SETTING_CODE = 77;
             });
         }
     }
-
 }

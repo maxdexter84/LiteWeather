@@ -1,65 +1,88 @@
 
 package com.maxdexter.liteweather.pojo;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Result {
 
-    @SerializedName("cod")
+    @SerializedName("lat")
     @Expose
-    private String cod;
-    @SerializedName("message")
+    private int lat;
+    @SerializedName("lon")
     @Expose
-    private Integer message;
-    @SerializedName("cnt")
+    private int lon;
+    @SerializedName("timezone")
     @Expose
-    private Integer cnt;
-    @SerializedName("list")
+    private String timezone;
+    @SerializedName("timezone_offset")
     @Expose
-    private java.util.List<List> list = null;
-    @SerializedName("city")
+    private int timezoneOffset;
+    @SerializedName("current")
     @Expose
-    private City city;
+    private Current current;
+    @SerializedName("hourly")
+    @Expose
+    private List<Hourly> hourly = null;
+    @SerializedName("daily")
+    @Expose
+    private List<Daily> daily = null;
 
-    public String getCod() {
-        return cod;
+    public int getLat() {
+        return lat;
     }
 
-    public void setCod(String cod) {
-        this.cod = cod;
+    public void setLat(int lat) {
+        this.lat = lat;
     }
 
-    public Integer getMessage() {
-        return message;
+    public int getLon() {
+        return lon;
     }
 
-    public void setMessage(Integer message) {
-        this.message = message;
+    public void setLon(int lon) {
+        this.lon = lon;
     }
 
-    public Integer getCnt() {
-        return cnt;
+    public String getTimezone() {
+        return timezone;
     }
 
-    public void setCnt(Integer cnt) {
-        this.cnt = cnt;
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
     }
 
-    public java.util.List<List> getList() {
-        return list;
+    public int getTimezoneOffset() {
+        return timezoneOffset;
     }
 
-    public void setList(java.util.List<List> list) {
-        this.list = list;
+    public void setTimezoneOffset(int timezoneOffset) {
+        this.timezoneOffset = timezoneOffset;
     }
 
-    public City getCity() {
-        return city;
+    public Current getCurrent() {
+        return current;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCurrent(Current current) {
+        this.current = current;
+    }
+
+    public List<Hourly> getHourly() {
+        return hourly;
+    }
+
+    public void setHourly(List<Hourly> hourly) {
+        this.hourly = hourly;
+    }
+
+    public List<Daily> getDaily() {
+        return daily;
+    }
+
+    public void setDaily(List<Daily> daily) {
+        this.daily = daily;
     }
 
 }

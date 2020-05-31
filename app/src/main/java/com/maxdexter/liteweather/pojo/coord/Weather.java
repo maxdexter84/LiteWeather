@@ -1,5 +1,5 @@
 
-package com.maxdexter.liteweather.pojo;
+package com.maxdexter.liteweather.pojo.coord;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -12,14 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maxdexter.liteweather.R;
-import com.maxdexter.liteweather.data.DailyWeather;
-import com.maxdexter.liteweather.data.WeatherLab;
+import com.maxdexter.liteweather.pojo.Daily;
+import com.maxdexter.liteweather.pojo.HelperMethods;
+import com.maxdexter.liteweather.pojo.WeatherBox;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TomorrowFragment extends Fragment {
-
+    HelperMethods mHelperMethods = new HelperMethods();
     private int defaultPosition = 1;
     private TextView mCityName;
     private TextView mCurrentTemp;
@@ -65,30 +66,33 @@ public class TomorrowFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void setContent(int position){
-        DailyWeather dailyWeather = WeatherLab.get(getContext()).getDailyWeather(position);
-        String city = WeatherLab.get(getContext()).getPlace();
-        if(dailyWeather != null ){
-            int feel = R.string.feeling_by;
-            mCurrentTemp.setText(dailyWeather.getTempDay() + " " + getString(R.string.temp_metric));
-            mFeelingTemp.setText(getString(R.string.feeling) +" " + dailyWeather.getFeeling() + getString(R.string.temp_metric));
-            mImageWeather.setImageResource(dailyWeather.getImageResourceId());
-            mDateTime.setText(dailyWeather.getDT());
-            mDayNightTemp.setText(getString(R.string.min_temp) +" "+ dailyWeather.getTempMin()+" " +getString(R.string.temp_metric)+ " : "+ getString(R.string.max_temp) +" "+  dailyWeather.getTempMax()+" " +getString(R.string.temp_metric));
-            mWeatherDescript.setText(dailyWeather.getDescription());
-            String wind = String.format("%s" + "m/s",dailyWeather.getWind_speed());
-            String humidity = String.format("%s" + "%%",dailyWeather.getHumidity());
-            String pressure = String.format("%s" + "mm",dailyWeather.getPressure());
-            String tempMin = String.format("%s" + getString(R.string.temp_metric),dailyWeather.getTempMin());
-            String tempMax = String.format("%s" + getString(R.string.temp_metric),dailyWeather.getTempMax());
-            mWindSpeed.setText(wind);
-            mHumidity.setText(humidity);
-            mPressure.setText(pressure);
-            mTempMax.setText(tempMax);
-            mTempMin.setText(tempMin);
-            mSunrise.setText(dailyWeather.getSunrise());
-            mSunset.setText(dailyWeather.getSunset());
+        int feel = R.string.feeling_by;
+        Daily weather = WeatherBox.getInstance().getResult().getDaily().get(1);
 
-        }
+        HelperMethods mHelperMethods = new HelperMethods();
+        String date = mHelperMethods.initDate(weather.getDt());
+        String temp = (int)weather.getTemp().getDay() + " ℃";
+        String desc = weather.getWeather().get(0).getDescription();
+        int imgRes = mHelperMethods.getWeatherIcon(desc);
+        mDateTime.setText(date);
+        mCurrentTemp.setText(temp);
+        mWeatherDescript.setText(desc);
+        mImageWeather.setImageResource(imgRes);
+        String wind = "Wind speed " + weather.getWindSpeed() + "m/s";
+        String humidity = "Humidity " + weather.getHumidity()+ "%";
+        String pressure = "Pressure " + weather.getPressure() + "mm";
+        String tempMin = "Min " + weather.getTemp().getMin()+ "℃ ";
+        String tempMax = "Max " +  weather.getTemp().getMax()+ "℃ ";
+        String feeling = "Feeling by" +  weather.getFeelsLike().getDay()+ "℃ ";
+        mWindSpeed.setText(wind);
+        mHumidity.setText(humidity);
+        mPressure.setText(pressure);
+        mTempMax.setText(tempMax);
+        mTempMin.setText(tempMin);
+        mFeelingTemp.setText(feeling);
+
+
+    }
     }
 
-}
+

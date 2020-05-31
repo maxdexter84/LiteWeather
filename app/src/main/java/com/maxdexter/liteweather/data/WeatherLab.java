@@ -7,6 +7,8 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.maxdexter.liteweather.pojo.Daily;
+
 import java.util.List;
 
 
@@ -25,18 +27,18 @@ public class WeatherLab {
         mPlace = place;
     }
 
-    public void setDailyWeathers(List<DailyWeather> dailyWeathers) {
+    public void setDailyWeathers(List<Daily> dailyWeathers) {
         mDailyWeathers = dailyWeathers;
     }
 
-    private List<DailyWeather> mDailyWeathers;
+    private List<Daily> mDailyWeathers;
 
     public String getPlace() {
         return mPlace;
     }
 
-    public DailyWeather getDailyWeather(int position){
-        DailyWeather dailyWeather;
+    public Daily getDailyWeather(int position){
+        Daily dailyWeather;
         if(mDailyWeathers.get(position) != null){
             dailyWeather = mDailyWeathers.get(position);
             return dailyWeather;
@@ -44,7 +46,7 @@ public class WeatherLab {
         return null;
     }
 
-    public List<DailyWeather> getDailyWeathers() {
+    public List<Daily> getDailyWeathers() {
         return mDailyWeathers;
     }
 
