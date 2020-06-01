@@ -37,14 +37,14 @@ public class HistoryBox {
     }
     public void addList(HistoryWeather historyWeather){
         database.mWeatherDao().insert(historyWeather);
-        getHistoryWeatherList();
+        
     }
     public void updateHistoryWeather(HistoryWeather historyWeather){
         database.mWeatherDao().update(historyWeather);
-        getHistoryWeatherList();
+
     }
     public void deleteHistoryWeather(HistoryWeather historyWeather){
         database.mWeatherDao().delete(historyWeather);
-        getHistoryWeatherList();
+
     }
 }

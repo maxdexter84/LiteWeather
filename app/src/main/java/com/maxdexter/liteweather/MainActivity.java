@@ -225,7 +225,6 @@ public class MainActivity extends BaseActivity{
                             helperMethods.getWeatherIcon(coordRes.getWeather().get(0).getDescription()));
                     if(HistoryBox.get(getApplicationContext()).getHistoryWeather(coordRes.getName()) != null){
                         int id = HistoryBox.get(getApplicationContext()).getHistoryWeather(coordRes.getName()).getId();
-                        assert historyWeather != null;
                         historyWeather.setId(id);
                         HistoryBox.get(getApplicationContext()).updateHistoryWeather(historyWeather);
                     }else HistoryBox.get(getApplicationContext()).addList(historyWeather);
@@ -239,7 +238,7 @@ public class MainActivity extends BaseActivity{
 
 
     public class ViewPagerFragment extends FragmentPagerAdapter {
-        public ViewPagerFragment(@NonNull FragmentManager fm) {
+        ViewPagerFragment(@NonNull FragmentManager fm) {
             super(fm);
         }
         @NonNull
