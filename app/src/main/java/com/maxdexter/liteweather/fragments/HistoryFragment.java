@@ -1,7 +1,5 @@
 package com.maxdexter.liteweather.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -9,41 +7,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
-import com.maxdexter.liteweather.MainActivity;
 import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.adapter.HistoryAdapter;
-import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
-import com.maxdexter.liteweather.data.WeatherLab;
+import com.maxdexter.liteweather.data.LiveDataController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -51,7 +32,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
  * A simple {@link Fragment} subclass.
  */
 public class HistoryFragment extends BottomSheetDialogFragment {
-    ConstraintLayout mConstraintLayout;
+    private ConstraintLayout mConstraintLayout;
     private List<HistoryWeather> mWeatherList;
     private static final int ID_DELETE = 10;
     private HistoryAdapter historyAdapter;
@@ -80,7 +61,7 @@ public class HistoryFragment extends BottomSheetDialogFragment {
         historyAdapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v,String city) {
-                WeatherLab.get(getContext()).setData(city);
+                LiveDataController.get(getContext()).setData(city);
                 dismiss();
             }
         });
@@ -120,7 +101,7 @@ public class HistoryFragment extends BottomSheetDialogFragment {
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(getContext(),R.color.red))
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()),R.color.red))
                     .addSwipeLeftActionIcon(R.drawable.delete_icon)
                     .create()
                     .decorate();

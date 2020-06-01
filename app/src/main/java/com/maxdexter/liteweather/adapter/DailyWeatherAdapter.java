@@ -8,28 +8,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.maxdexter.liteweather.R;
-import com.maxdexter.liteweather.data.DailyWeather;
+import com.maxdexter.liteweather.pojo.Daily;
+import com.maxdexter.liteweather.pojo.HelperMethods;
 
-import java.util.ArrayList;
-
-import static android.provider.Settings.System.getString;
+import java.util.List;
 
 public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder> {
 
-
-
-
-    private ArrayList<DailyWeather>sWeatherList;
+   // private ArrayList<DailyWeather>sWeatherList;
+    private List<Daily> sWeatherList;
 
 //Создаем конструтктор адаптера, в который передаем список sWeatherList
-    public DailyWeatherAdapter(ArrayList<DailyWeather>weatherList){
+    public DailyWeatherAdapter(List<Daily> weatherList){
         this.sWeatherList = weatherList;
     }
     @NonNull
@@ -43,7 +39,7 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        DailyWeather weather = sWeatherList.get(position);
+        Daily weather = sWeatherList.get(position);
         holder.bind(weather);
         View view = holder.itemView;
 
@@ -84,17 +80,22 @@ public class DailyWeatherAdapter extends RecyclerView.Adapter<DailyWeatherAdapte
             mTempMin = itemView.findViewById(R.id.title_min_id);
             mFeeling = itemView.findViewById(R.id.feeling_title_id);
         }
-        void bind(DailyWeather weather){
-            itemDateTime.setText(weather.getDT());
-            itemCurrentTemp.setText(weather.getTempDay() + " ℃");
-            itemWeatherDescript.setText(weather.getDescription());
-            itemImageWeather.setImageResource(weather.getImageResourceId());
-            String wind = "Wind speed " + weather.getWind_speed() + "m/s";
+        void bind(Daily weather){
+            HelperMethods mHelperMethods = new HelperMethods();
+            String date = mHelperMethods.initDate(weather.getDt());
+            String temp = (int)weather.getTemp().getDay() + " ℃";
+            String desc = weather.getWeather().get(0).getDescription();
+            int imgRes = mHelperMethods.getWeatherIcon(weather.getWeather().get(0).getDescription());
+            itemDateTime.setText(date);
+            itemCurrentTemp.setText(temp);
+            itemWeatherDescript.setText(desc);
+            itemImageWeather.setImageResource(imgRes);
+            String wind = "Wind speed " + weather.getWindSpeed() + "m/s";
             String humidity = "Humidity " + weather.getHumidity()+ "%";
             String pressure = "Pressure " + weather.getPressure() + "mm";
-            String tempMin = "Min " + weather.getTempMin()+ "℃ ";
-            String tempMax = "Max " +  weather.getTempMax()+ "℃ ";
-            String feeling = "Feeling by" +  weather.getFeeling()+ "℃ ";
+            String tempMin = "Min " + weather.getTemp().getMin()+ "℃ ";
+            String tempMax = "Max " +  weather.getTemp().getMax()+ "℃ ";
+            String feeling = "Feeling by" +  weather.getFeelsLike().getDay()+ "℃ ";
             mWindSpeed.setText(wind);
             mHumidity.setText(humidity);
             mPressure.setText(pressure);
