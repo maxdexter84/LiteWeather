@@ -21,9 +21,10 @@ import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.adapter.HistoryAdapter;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
-import com.maxdexter.liteweather.data.WeatherLab;
+import com.maxdexter.liteweather.data.LiveDataController;
 
 import java.util.List;
+import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -31,7 +32,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
  * A simple {@link Fragment} subclass.
  */
 public class HistoryFragment extends BottomSheetDialogFragment {
-    ConstraintLayout mConstraintLayout;
+    private ConstraintLayout mConstraintLayout;
     private List<HistoryWeather> mWeatherList;
     private static final int ID_DELETE = 10;
     private HistoryAdapter historyAdapter;
@@ -60,7 +61,7 @@ public class HistoryFragment extends BottomSheetDialogFragment {
         historyAdapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v,String city) {
-                WeatherLab.get(getContext()).setData(city);
+                LiveDataController.get(getContext()).setData(city);
                 dismiss();
             }
         });
@@ -100,7 +101,7 @@ public class HistoryFragment extends BottomSheetDialogFragment {
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(getContext(),R.color.red))
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()),R.color.red))
                     .addSwipeLeftActionIcon(R.drawable.delete_icon)
                     .create()
                     .decorate();

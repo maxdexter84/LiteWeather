@@ -12,6 +12,7 @@ import com.maxdexter.liteweather.network.ResponsResult;
 import com.maxdexter.liteweather.pojo.Daily;
 import com.maxdexter.liteweather.pojo.WeatherBox;
 import com.maxdexter.liteweather.pojo.HelperMethods;
+import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +56,7 @@ public class TodayWeather extends Fragment{
     }
 
     private void initView() {
+        CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
         Daily daily = WeatherBox.getInstance().getResult().getDaily().get(0);
         String desc = daily.getWeather().get(0).getDescription();
         String wind = String.format("%s" + "m/s",daily.getWindSpeed());
@@ -65,7 +67,7 @@ public class TodayWeather extends Fragment{
         String sunset = mHelperMethods.initTime(daily.getSunset());
         String sunrise = mHelperMethods.initTime(daily.getSunrise());
         String date = mHelperMethods.initDate(daily.getDt());
-        String currentTemp = (int)daily.getTemp().getDay()+"";
+        String currentTemp = (int)coordRes.getMain().getTemp()+"";
         int resid = mHelperMethods.getWeatherIcon(daily.getWeather().get(0).getDescription());
         mCurrentTemp.setText(currentTemp + " " + getString(R.string.temp_metric));
         mFeelingTemp.setText(getString(R.string.feeling) +" " + daily.getFeelsLike().getDay() + " " + getString(R.string.temp_metric));

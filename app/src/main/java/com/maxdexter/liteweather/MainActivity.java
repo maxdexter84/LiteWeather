@@ -11,11 +11,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
+
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +29,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
-import com.maxdexter.liteweather.data.WeatherLab;
+import com.maxdexter.liteweather.data.LiveDataController;
 import com.maxdexter.liteweather.fragments.HistoryFragment;
 import com.maxdexter.liteweather.fragments.InfoFragment;
 import com.maxdexter.liteweather.fragments.TenDaysWeather;
@@ -36,7 +37,6 @@ import com.maxdexter.liteweather.fragments.TodayWeather;
 import com.maxdexter.liteweather.fragments.TomorrowFragment;
 import com.maxdexter.liteweather.network.NetworkService;
 import com.maxdexter.liteweather.network.ResponsResult;
-import com.maxdexter.liteweather.pojo.Daily;
 import com.maxdexter.liteweather.pojo.HelperMethods;
 import com.maxdexter.liteweather.pojo.WeatherBox;
 import com.maxdexter.liteweather.pojo.coord.CoordRes;
@@ -48,9 +48,8 @@ public class MainActivity extends BaseActivity{
     Toolbar toolbar;
     public static final int SETTING_CODE = 77;
     private LiveData<String> liveData;
-    private final Handler handler = new Handler();
     AppCache mAppCache;
-   // WeatherLoader mWeatherLoader = new WeatherLoader();
+
 
 
 
@@ -64,8 +63,8 @@ public class MainActivity extends BaseActivity{
         }
         initToolbar();
         mAppCache = new AppCache(this);
-        liveData = WeatherLab.get(this).getData();
-       // WeatherLab.get(this).setData(mAppCache.getSavedCity());
+        liveData = LiveDataController.get(this).getData();
+        LiveDataController.get(this).setData(mAppCache.getSavedCity());
         searchViewGetText();
         updateWeatherData(mAppCache.getSavedCity());
         initFAB();
@@ -99,7 +98,7 @@ public class MainActivity extends BaseActivity{
     }
 
     private void initBottomSheet(){
-        View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_bottom_dialog,null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getApplication()).inflate(R.layout.fragment_bottom_dialog,null);
         final BottomSheetDialog bottomDialog = new BottomSheetDialog(MainActivity.this,R.style.BottomSheetDialog);
         bottomDialog.setContentView(view);
         bottomDialog.show();
@@ -138,7 +137,7 @@ public class MainActivity extends BaseActivity{
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             changeCity(query);
-            //WeatherLab.get(this).setData(query);
+            LiveDataController.get(this).setData(query);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
             MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
@@ -219,7 +218,7 @@ public class MainActivity extends BaseActivity{
                 if(aBoolean){
                     initViewPager();
                     HelperMethods helperMethods = new HelperMethods();
-                  CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
+                     CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
                     HistoryWeather historyWeather = new HistoryWeather(coordRes.getName(),
                             (int)coordRes.getMain().getTemp()+"",
                             helperMethods.initDate(coordRes.getDt()),
@@ -276,18 +275,4 @@ public class MainActivity extends BaseActivity{
         TabLayout tabLayout = findViewById(R.id.tabs_fragment);
         tabLayout.setupWithViewPager(pager);
     }
-
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        if(hasFocus){
-//            liveData.observe(this, new Observer<String>() {
-//                @Override
-//                public void onChanged(@Nullable String value) {
-//                    changeCity(value);
-//                }
-//            });
-//        }
-//    }
-
 }

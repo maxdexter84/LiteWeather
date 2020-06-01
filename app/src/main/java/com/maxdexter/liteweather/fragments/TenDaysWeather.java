@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 
 import com.maxdexter.liteweather.R;
 import com.maxdexter.liteweather.adapter.DailyWeatherAdapter;
-import com.maxdexter.liteweather.data.WeatherLab;
 import com.maxdexter.liteweather.pojo.Daily;
 import com.maxdexter.liteweather.pojo.WeatherBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ import java.util.List;
  */
 public class TenDaysWeather extends Fragment {
 
-    DailyWeatherAdapter dailyWeatherAdapter;
+    private DailyWeatherAdapter dailyWeatherAdapter;
 
     public TenDaysWeather() {
         // Required empty public constructor
