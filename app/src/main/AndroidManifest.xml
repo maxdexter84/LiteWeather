@@ -12,10 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <service android:name=".broadcast.MHS">
+        <receiver
+            android:name=".broadcast.MessageReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <service android:name=".broadcast.FireBase">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter></service>
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".SettingActivity"
@@ -41,7 +47,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
             </intent-filter>
         </receiver>
         <receiver android:name=".broadcast.SignalOn">

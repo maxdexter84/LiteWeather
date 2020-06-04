@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.broadcast.BaseActivity;
+import com.maxdexter.liteweather.broadcast.MessageReceiver;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
@@ -44,6 +45,8 @@ import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 
 public class MainActivity extends BaseActivity {
+    private static final String ACTION_SEND_MESSAGE = "com.maxdexter.liteweather";
+    public static final int FLAG_RECEIVER_INCLUDE_BACKGROUND = 0x01000000;
     private static final String API_GOOGLE = "AIzaSyBv6wGYzOLab_NkyQsVvvlWoDBCYyBTVvo";
     private static final String TAG = "tag";
     Toolbar toolbar;
@@ -84,7 +87,6 @@ public class MainActivity extends BaseActivity {
                 NetworkService.getInstance().loadData(latS,lonS,"073f40e104f2129961514beb51a721d2","metric");
             }
         });
-
 
     }
 
@@ -218,6 +220,7 @@ public class MainActivity extends BaseActivity {
                 boolean load = aBoolean;
                 if(aBoolean){
                     initViewPager();
+                    initMsg();
                     HelperMethods helperMethods = new HelperMethods();
                      CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
                     HistoryWeather historyWeather = new HistoryWeather(coordRes.getName(),
@@ -274,5 +277,16 @@ public class MainActivity extends BaseActivity {
         pager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs_fragment);
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @SuppressLint("WrongConstant")
+    public void initMsg(){
+       String weather = WeatherBox.getInstance().getCoordRes().getWeather().get(0).getDescription();
+           Intent intent = new Intent();
+           intent.setAction(ACTION_SEND_MESSAGE);
+           intent.putExtra("msg",weather);
+           intent.addFlags(FLAG_RECEIVER_INCLUDE_BACKGROUND);
+           sendBroadcast(intent);
+
     }
 }

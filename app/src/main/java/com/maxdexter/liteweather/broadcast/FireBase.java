@@ -15,10 +15,10 @@ import com.maxdexter.liteweather.R;
 
 import java.util.Objects;
 
-public class MHS extends FirebaseMessagingService {
+public class FireBase extends FirebaseMessagingService {
     private int messageId = 0;
 
-    public MHS() {
+    public FireBase() {
     }
 
     @Override
