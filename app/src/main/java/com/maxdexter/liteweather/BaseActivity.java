@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.maxdexter.liteweather.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
     private static final String sNameSharedPreference = "LOGIN";
     //Имя параметра в настройках
     private static final String IsDarkThem = "IS_DARK_THEM";
@@ -47,5 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         editor.putBoolean(IsDarkThem,isDarkTheme);
         editor.apply();
     }
+
 
 }

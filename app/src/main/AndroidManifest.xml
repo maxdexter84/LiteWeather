@@ -29,7 +29,14 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
+        <receiver
+            android:name=".BatteryLow"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="liteweather" />
+            </intent-filter>
+        </receiver>
         <provider
             android:name=".MySuggestionProvider"
             android:authorities="com.maxdexter.liteweather.MySuggestionProvider"
