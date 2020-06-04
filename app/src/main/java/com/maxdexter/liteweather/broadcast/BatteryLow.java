@@ -1,4 +1,4 @@
-package com.maxdexter.liteweather;
+package com.maxdexter.liteweather.broadcast;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

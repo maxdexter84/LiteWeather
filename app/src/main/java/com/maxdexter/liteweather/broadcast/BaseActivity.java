@@ -1,4 +1,4 @@
-package com.maxdexter.liteweather;
+package com.maxdexter.liteweather.broadcast;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

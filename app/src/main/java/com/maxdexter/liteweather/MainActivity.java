@@ -26,6 +26,7 @@ import android.widget.EditText;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.maxdexter.liteweather.broadcast.BaseActivity;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
@@ -42,7 +43,7 @@ import com.maxdexter.liteweather.pojo.WeatherBox;
 import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
     private static final String API_GOOGLE = "AIzaSyBv6wGYzOLab_NkyQsVvvlWoDBCYyBTVvo";
     private static final String TAG = "tag";
     Toolbar toolbar;

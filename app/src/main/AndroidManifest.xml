@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.maxdexter.liteweather">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -30,11 +31,18 @@
                 android:resource="@xml/searchable" />
         </activity>
         <receiver
-            android:name=".BatteryLow"
+            android:name=".broadcast.BatteryLow"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="liteweather" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".broadcast.SignalOn">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
         <provider
