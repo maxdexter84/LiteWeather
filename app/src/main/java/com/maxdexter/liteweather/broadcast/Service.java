@@ -1,5 +1,6 @@
 package com.maxdexter.liteweather.broadcast;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -23,10 +24,6 @@ import com.google.firebase.iid.InstanceIdResult;
 
 
 public class Service extends BaseActivity {
-    private static final String ACTION_SEND_MSG ="liteweather";
-    private static final String NAME_MSG = "msg";
-    public static final int FLAG_RECEIVER_INCLUDE_BACKGROUND = 0x01000000;
-    IntentFilter mIntentFilter;
     BatteryLow mBatteryLow;
     SignalOn mSignalOn;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -75,6 +72,9 @@ public class Service extends BaseActivity {
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
     }
+
+
+
 }
 
 

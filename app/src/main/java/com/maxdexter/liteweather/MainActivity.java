@@ -28,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.broadcast.BaseActivity;
 import com.maxdexter.liteweather.broadcast.MessageReceiver;
+import com.maxdexter.liteweather.broadcast.Service;
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
@@ -45,7 +46,8 @@ import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 
 public class MainActivity extends BaseActivity {
-    private static final String ACTION_SEND_MESSAGE = "com.maxdexter.liteweather";
+    private static final String ACTION_SEND_MSG ="liteweather";
+    private static final String NAME_MSG = "msg";
     public static final int FLAG_RECEIVER_INCLUDE_BACKGROUND = 0x01000000;
     private static final String API_GOOGLE = "AIzaSyBv6wGYzOLab_NkyQsVvvlWoDBCYyBTVvo";
     private static final String TAG = "tag";
@@ -222,6 +224,7 @@ public class MainActivity extends BaseActivity {
                     initViewPager();
                     HelperMethods helperMethods = new HelperMethods();
                      CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
+                   sendIntent(coordRes.getWeather().get(0).getDescription());
                     HistoryWeather historyWeather = new HistoryWeather(coordRes.getName(),
                             (int)coordRes.getMain().getTemp()+"",
                             helperMethods.initDate(coordRes.getDt()),
@@ -276,6 +279,20 @@ public class MainActivity extends BaseActivity {
         pager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs_fragment);
         tabLayout.setupWithViewPager(pager);
+    }
+    @SuppressLint("WrongConstant")
+    public void sendIntent(String text){
+        Intent intent = new Intent();
+        // Укажем ACTION по которому будем ловить сообщение
+        intent.setAction(ACTION_SEND_MSG);
+        // Добавим параметр.
+        intent.putExtra(NAME_MSG, text);
+        // Указываем флаг поднятия приложения
+        // (без него будут получать уведомления только
+        // загруженные приложения)
+        intent.addFlags(FLAG_RECEIVER_INCLUDE_BACKGROUND);
+        // Отправка сообщения
+        sendBroadcast(intent);
     }
 
 

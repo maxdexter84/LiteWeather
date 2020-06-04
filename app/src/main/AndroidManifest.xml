@@ -15,7 +15,12 @@
         <receiver
             android:name=".broadcast.MessageReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true"
+            android:permission="TODO">
+            <intent-filter>
+                <action android:name="liteweather" />
+            </intent-filter>
+        </receiver>
 
         <service android:name=".broadcast.FireBase">
             <intent-filter>

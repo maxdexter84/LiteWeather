@@ -20,7 +20,6 @@ public class FireBase extends FirebaseMessagingService {
 
     public FireBase() {
     }
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("PushMessage", Objects.requireNonNull(remoteMessage.getNotification().getBody()));
