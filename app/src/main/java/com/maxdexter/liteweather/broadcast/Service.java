@@ -9,8 +9,15 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 
 public class Service extends BaseActivity {
@@ -26,13 +33,10 @@ public class Service extends BaseActivity {
         mBatteryLow = new BatteryLow();
         mSignalOn = new SignalOn();
         // Программная регистрация ресивера
-        registerReceiver(mBatteryLow, new IntentFilter(Intent.ACTION_BATTERY_LOW));
 
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        mIntentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        registerReceiver(mSignalOn,new IntentFilter(NETWORK_STATS_SERVICE));
+
+        initGetToken();
+        initNotificationChannel();
     }
 
 
@@ -42,6 +46,37 @@ public class Service extends BaseActivity {
         unregisterReceiver(mBatteryLow);
     }
 
+    private void initGetToken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("PushMessage", "getInstanceId failed", task.getException());
+                            return;
+                        }
 
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
 
+                    }
+                });
+    }
+
+    // инициализация канала нотификаций
+    private void initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel("2", "name", importance);
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 }
+
+
+
+
+
+
