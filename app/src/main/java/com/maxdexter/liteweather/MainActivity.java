@@ -220,7 +220,6 @@ public class MainActivity extends BaseActivity {
                 boolean load = aBoolean;
                 if(aBoolean){
                     initViewPager();
-                    initMsg();
                     HelperMethods helperMethods = new HelperMethods();
                      CoordRes coordRes = WeatherBox.getInstance().getCoordRes();
                     HistoryWeather historyWeather = new HistoryWeather(coordRes.getName(),
@@ -279,14 +278,5 @@ public class MainActivity extends BaseActivity {
         tabLayout.setupWithViewPager(pager);
     }
 
-    @SuppressLint("WrongConstant")
-    public void initMsg(){
-       String weather = WeatherBox.getInstance().getCoordRes().getWeather().get(0).getDescription();
-           Intent intent = new Intent();
-           intent.setAction(ACTION_SEND_MESSAGE);
-           intent.putExtra("msg",weather);
-           intent.addFlags(FLAG_RECEIVER_INCLUDE_BACKGROUND);
-           sendBroadcast(intent);
 
-    }
 }

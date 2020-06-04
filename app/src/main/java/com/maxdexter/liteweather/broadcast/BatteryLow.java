@@ -14,23 +14,16 @@ public class BatteryLow extends BroadcastReceiver {
     private int messageId = 100000;
     @Override
     public void onReceive(Context context, Intent intent) {
-//       int battery = intent.getIntExtra("level",0);
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"2")
-//                .setSmallIcon(R.mipmap.ic_launcher_round)
-//                .setContentTitle("Broadcast Receiver")
-//                .setContentText("battery charge " + battery);
-//        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//        notificationManager.notify(messageId++,builder.build());
-        initNot(intent,context);
-    }
-
-
-    public void initNot(Intent intent,Context context){
-        int battery = intent.getIntExtra("level",0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "2")
-                .setSmallIcon(android.R.drawable.ic_lock_idle_low_battery)
+       int battery = intent.getIntExtra("level",0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"2")
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle("Broadcast Receiver")
-                .setContentText("battery charge " + battery)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setContentText("battery charge " + battery);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(messageId++,builder.build());
+
     }
+
+
+
 }
