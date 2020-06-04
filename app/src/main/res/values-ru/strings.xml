@@ -6,4 +6,5 @@
     <string name="contact_information">Контактная информация</string>
     <string name="sunrise">Рассвет</string>
     <string name="sunset">Закат</string>
+    <string name="battery_low">Низкий заряд батареи</string>
 </resources>

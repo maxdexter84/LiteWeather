@@ -6,11 +6,11 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+
+import com.maxdexter.liteweather.broadcast.BaseActivity;
 
 public class SettingActivity extends BaseActivity {
 

@@ -39,6 +39,7 @@
     <string name="geekapp" translatable="false">GeekApp</string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
+    <string name="battery_low">Battery low</string>
 
 
 </resources>
