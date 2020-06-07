@@ -1,15 +1,13 @@
 package com.maxdexter.liteweather.pojo;
+import androidx.lifecycle.LiveData;
 
-import android.content.Context;
-
-import com.maxdexter.liteweather.data.HistoryBox;
-import com.maxdexter.liteweather.data.HistoryWeather;
-import com.maxdexter.liteweather.network.NetworkService;
+import com.maxdexter.liteweather.data.LiveDataController;
 import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 import java.util.ArrayList;
 
 public class WeatherBox {
+
     public Result getResult() {
         return mResult;
     }

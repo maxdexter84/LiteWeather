@@ -19,7 +19,9 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,17 +33,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.maxdexter.liteweather.broadcast.BaseActivity;
-import com.maxdexter.liteweather.broadcast.MessageReceiver;
-import com.maxdexter.liteweather.broadcast.Service;
+
 import com.maxdexter.liteweather.data.AppCache;
 import com.maxdexter.liteweather.data.HistoryBox;
 import com.maxdexter.liteweather.data.HistoryWeather;
@@ -57,9 +56,12 @@ import com.maxdexter.liteweather.pojo.HelperMethods;
 import com.maxdexter.liteweather.pojo.WeatherBox;
 import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
+import java.io.IOException;
+import java.util.List;
+
 
 public class MainActivity extends BaseActivity{
-
+    SearchView searchView;
     private static final int PERMISSION_REQUEST_CODE = 10;
     private static final String ACTION_SEND_MSG ="liteweather";
     private static final String NAME_MSG = "msg";
@@ -208,7 +210,7 @@ public class MainActivity extends BaseActivity{
 
     private void initSearchView(Menu menu) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.onActionViewExpanded();
         liveData.observe(this, new Observer<String>() {
@@ -362,12 +364,13 @@ public class MainActivity extends BaseActivity{
                     double lng = location.getLongitude(); // Долгота
                     String longitude = Double.toString(lng);
 
-
+                    getAddress(lat,lng);
                     String accuracy = Float.toString(location.getAccuracy());   // Точность
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                    NetworkService.getInstance().loadData(latitude,longitude,"073f40e104f2129961514beb51a721d2","metric");
+                        NetworkService.getInstance().loadData(latitude,longitude,"073f40e104f2129961514beb51a721d2","metric");
+
                         }
                     }).start();
 
@@ -417,6 +420,32 @@ public class MainActivity extends BaseActivity{
                 requestLocation();
             }
         }
+    }
+
+
+    //Получаем адрес по координатам
+    private void getAddress(final double lon,final double lat) {
+        final Geocoder geocoder = new Geocoder(this);
+        // Поскольку Geocoder работает по интернету, создаём отдельный поток
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final List<Address> addresses = geocoder.getFromLocation(lon,lat,1);
+                    searchView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            String[] addr = addresses.get(0).getAddressLine(0).split(",");
+                            String city = addr[2];
+                            searchView.setQueryHint(city);
+                            mAppCache.saveCity(city);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 
