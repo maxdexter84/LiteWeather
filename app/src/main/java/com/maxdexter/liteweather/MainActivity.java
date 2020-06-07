@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -12,10 +13,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.view.LayoutInflater;
@@ -23,6 +30,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -45,11 +58,13 @@ import com.maxdexter.liteweather.pojo.WeatherBox;
 import com.maxdexter.liteweather.pojo.coord.CoordRes;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity{
+
+    private static final int PERMISSION_REQUEST_CODE = 10;
     private static final String ACTION_SEND_MSG ="liteweather";
     private static final String NAME_MSG = "msg";
     public static final int FLAG_RECEIVER_INCLUDE_BACKGROUND = 0x01000000;
-    private static final String API_GOOGLE = "AIzaSyBv6wGYzOLab_NkyQsVvvlWoDBCYyBTVvo";
+    private FloatingActionButton coordFAB;
     private static final String TAG = "tag";
     Toolbar toolbar;
     public static final int SETTING_CODE = 77;
@@ -98,6 +113,14 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 initBottomSheet();
+            }
+        });
+        coordFAB = findViewById(R.id.floating_button_coord);
+        coordFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResponsResult.getLiveData().setValue(false);
+                requestPemissions();
             }
         });
     }
@@ -234,14 +257,13 @@ public class MainActivity extends BaseActivity {
                         historyWeather.setId(id);
                         HistoryBox.get(getApplicationContext()).updateHistoryWeather(historyWeather);
                     }else HistoryBox.get(getApplicationContext()).addList(historyWeather);
+
                 }
 
             }
         });
 
     }
-
-
 
     public class ViewPagerFragment extends FragmentPagerAdapter {
         ViewPagerFragment(@NonNull FragmentManager fm) {
@@ -293,6 +315,108 @@ public class MainActivity extends BaseActivity {
         intent.addFlags(FLAG_RECEIVER_INCLUDE_BACKGROUND);
         // Отправка сообщения
         sendBroadcast(intent);
+    }
+    /*-------------------------------------------------------------*/
+    public void requestPemissions() {
+        // Проверим, есть ли Permission’ы, и если их нет, запрашиваем их у
+        // пользователя
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)==
+                PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED){
+            // Запрашиваем координаты
+            requestLocation();
+        }else {
+            // Permission’ов нет, запрашиваем их у пользователя
+            requestLocationPermissions();
+        }
+    }
+
+    private void requestLocation(){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            return;
+
+        // Получаем менеджер геолокаций
+        LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        // Получаем наиболее подходящий провайдер геолокации по критериям.
+        // Но определить, какой провайдер использовать, можно и самостоятельно.
+        // В основном используются LocationManager.GPS_PROVIDER или
+        // LocationManager.NETWORK_PROVIDER, но можно использовать и
+        // LocationManager.PASSIVE_PROVIDER - для получения координат в
+        // пассивном режиме
+
+        String provider = locationManager.getBestProvider(criteria,true);
+        if(provider != null){
+            // Будем получать геоположение через каждые 10 секунд или каждые
+            // 10 метров
+            locationManager.requestLocationUpdates(provider, 10000, 10, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    double lat = location.getLatitude(); // Широта
+                    String latitude = Double.toString(lat);
+
+
+                    double lng = location.getLongitude(); // Долгота
+                    String longitude = Double.toString(lng);
+
+
+                    String accuracy = Float.toString(location.getAccuracy());   // Точность
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                    NetworkService.getInstance().loadData(latitude,longitude,"073f40e104f2129961514beb51a721d2","metric");
+                        }
+                    }).start();
+
+                    LatLng currentPosition = new LatLng(lat, lng);
+                }
+
+
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+    }
+    // Запрашиваем Permission’ы для геолокации
+    private void requestLocationPermissions() {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
+            // Запрашиваем эти два Permission’а у пользователя
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
+                    PERMISSION_REQUEST_CODE);
+        }
+    }
+    // Результат запроса Permission’а у пользователя:
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {   // Запрошенный нами
+            // Permission
+            if (grantResults.length == 2 &&
+                    (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                // Все препоны пройдены и пермиссия дана
+                // Запросим координаты
+                requestLocation();
+            }
+        }
     }
 
 
