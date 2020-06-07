@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.maxdexter.liteweather">
 
     <!--
@@ -36,7 +37,8 @@
             android:name=".broadcast.MessageReceiver"
             android:enabled="true"
             android:exported="true"
-            android:permission="TODO">
+            android:permission="TODO"
+            tools:ignore="ExportedReceiver">
             <intent-filter>
                 <action android:name="liteweather" />
             </intent-filter>
@@ -77,7 +79,8 @@
         </receiver>
         <receiver android:name=".broadcast.SignalOn">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
