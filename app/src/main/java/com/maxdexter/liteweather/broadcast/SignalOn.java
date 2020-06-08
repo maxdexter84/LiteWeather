@@ -13,7 +13,7 @@ import com.maxdexter.liteweather.R;
 
 public class SignalOn extends BroadcastReceiver {
     ConnectivityManager connectivityManager;
-    private int messageId = 999;
+    private int messageId = 10000000;
     @Override
     public void onReceive(Context context, Intent intent) {
         connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -31,13 +31,16 @@ public class SignalOn extends BroadcastReceiver {
 
     protected void hasConnection(Context context) {
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-        if(netInfo!= null && netInfo.isConnectedOrConnecting()){
+        if(netInfo!= null){
             switch (netInfo.getType()) {
-                case ConnectivityManager.TYPE_MOBILE:
+                case ConnectivityManager.TYPE_MOBILE:{
                     initNotify(context,"mobile connected");
-                    return;
-                case ConnectivityManager.TYPE_WIFI:
+                    break;
+                }
+                case ConnectivityManager.TYPE_WIFI:{
                     initNotify(context,"WiFi connected");
+                    break;
+                }
 
             }
         }else{
