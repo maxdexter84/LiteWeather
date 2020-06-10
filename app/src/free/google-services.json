@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "496754443526",
+    "firebase_url": "https://liteweather-3ffab.firebaseio.com",
+    "project_id": "liteweather-3ffab",
+    "storage_bucket": "liteweather-3ffab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496754443526:android:182ed13d66bfea3ade8a87",
+        "android_client_info": {
+          "package_name": "com.maxdexter.liteweather"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496754443526-3ru2fmh526vekd3219sqem9afv7uv2hj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maxdexter.liteweather",
+            "certificate_hash": "f256a51e3ebb8e1bc5cf51ad8d408ffa8e765a64"
+          }
+        },
+        {
+          "client_id": "496754443526-me3dtnchkdjp0mjtn8r2nkmds8kgsnoq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAePx_zocPKPnP1GM22deHMP8nCL_eJGcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496754443526-me3dtnchkdjp0mjtn8r2nkmds8kgsnoq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
