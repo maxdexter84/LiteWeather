@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdkVersion 29
@@ -23,6 +23,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions 'version'
+    productFlavors {
+        free {
+            dimension 'version'
+            applicationId 'com.maxdexter.liteweather.free'
+            versionNameSuffix '.free'
+        }
+        pro{
+            dimension 'version'
+            applicationId 'com.maxdexter.liteweather.pro'
+            versionNameSuffix '.pro'
         }
     }
 
